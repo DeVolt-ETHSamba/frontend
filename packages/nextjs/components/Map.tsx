@@ -1,9 +1,9 @@
 // src/components/Map.tsx
+import { useEffect } from "react";
 import L from "leaflet";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet/dist/leaflet.css";
-import { useEffect } from "react";
 import { MapContainer, MapContainerProps, Marker, Popup, TileLayer, Tooltip, useMap } from "react-leaflet";
 import { Progress } from "~~/components/ui/progress";
 
@@ -25,22 +25,53 @@ const stationIcon = L.icon({
   popupAnchor: [-1, -58],
 });
 
-const MapUpdater = ({ mapCenter }:any) => {
+const MapUpdater = ({ mapCenter }: any) => {
   const map = useMap();
 
   useEffect(() => {
     map.flyTo(mapCenter, 16, {
       animate: true,
-      duration: 5.0 // Duração da animação em segundos
+      duration: 5.0, // Duração da animação em segundos
     });
   }, [mapCenter, map]);
 
   return null;
 };
 
+interface mapProps {
+  stations: any;
+  width?: string;
+  height?: string;
+  center: [number, number];
+  userLocation: [number, number];
+  buttonText?: string;
+  roundedTopCorners: boolean;
+  roundedBottomCorners: boolean;
+  setSelectedStation?: (station: any) => void;
+}
 
+const Map = ({
 
-const Map = ({ stations, center, userLocation, showAuctionButton }: any) => {
+  stations,
+  width,
+  height,
+  center,
+  userLocation,
+  buttonText,
+  roundedTopCorners,
+  roundedBottomCorners,
+  setSelectedStation,
+
+}: mapProps) => {
+  let ContainerStyle = {
+    width: width || "100%",
+    height: height || "550px",
+    borderTopLeftRadius: roundedTopCorners ? "20px" : "0",
+    borderTopRightRadius: roundedTopCorners ? "20px" : "0",
+    borderBottomLeftRadius: roundedBottomCorners ? "20px" : "0",
+    borderBottomRightRadius: roundedBottomCorners ? "20px" : "0",
+    margin: "auto",
+  };
 
   return (
     <>
@@ -53,13 +84,8 @@ const Map = ({ stations, center, userLocation, showAuctionButton }: any) => {
         }
         `}
       </style>
-      <MapContainer
-        center={center}
-        zoom={1}
-        scrollWheelZoom={true}
-        style={{ width: "100%", height: "550px", borderRadius: "15px" }}
-      >
-              <MapUpdater mapCenter={center} />
+      <MapContainer center={center} zoom={1} scrollWheelZoom={true} style={ContainerStyle}>
+        <MapUpdater mapCenter={center} />
 
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -73,7 +99,7 @@ const Map = ({ stations, center, userLocation, showAuctionButton }: any) => {
 
         {stations.map((station: any, index: number) => {
           return (
-            <Marker key={index} position={[station.x, station.y]} icon={stationIcon}>
+            <Marker key={station.id} position={[station.x, station.y]} icon={stationIcon}>
               <Popup>
                 <div className="leading-[1px] text-white">
                   <p>{station.address}</p>
@@ -89,11 +115,17 @@ const Map = ({ stations, center, userLocation, showAuctionButton }: any) => {
                   <p className="font-bold ">Carga disponível:</p>
                   <Progress className="bg-slate-300" value={station.availableEnergyPercentage}></Progress>
                   <p className="">{station.availableEnergyPercentage}% (12 A/h)</p>
-                  {showAuctionButton && (
-                    <button className="bg-primary p-4 px-6 roundedfont-bold hover:bg-green-400 transition">
-                      Acessar leilão
-                    </button>
-                  )}
+                  <button
+                    onClick={() => {
+                      if (setSelectedStation) {
+                      setSelectedStation(station)
+                      }
+                    }
+                    }
+                    className="bg-primary p-4 px-6 rounded font-bold hover:bg-green-400 transition"
+                  >
+                    {buttonText || "Selecionar"}
+                  </button>
                 </div>
               </Popup>
             </Marker>

@@ -54,8 +54,8 @@ const MapSectionHomepage = () => {
   return (
     <div className="w-full">
       <div
-        className="bg-green-500 text-white rounded-lg shadow-lg mt-1 mb-8 pb-6 w-full flex justify-around items-center"
-        style={{ borderRadius: "25px", backgroundImage: "linear-gradient(to right, #000000 , #14591F)" }}
+        className="bg-green-500 text-white rounded-t-3xl shadow-lg pb-8 w-full flex justify-around items-center"
+        style={{ backgroundImage: "linear-gradient(to right, #000000 , #14591F)" }}
       >
         <h1 className="text-5xl text-white">Charging points near you:</h1>
         <div className="leading-[0]">
@@ -76,6 +76,8 @@ const MapSectionHomepage = () => {
         </div>
       </div>
       <Map
+        roundedTopCorners={false}
+        roundedBottomCorners={true}
         stations={stations}
         center={location}
         userLocation={location}

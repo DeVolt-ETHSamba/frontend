@@ -1,5 +1,24 @@
+import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
+
+type ChartData = {
+    date: string;
+    value: number;
+  };
+
+  const data: ChartData[] = [
+    { date: "15 Nov", value: 0.8 },
+    { date: "16 Nov", value: 0.2 },
+    { date: "17 Nov", value: 0.62 },
+    { date: "18 Nov", value: 0.91 },
+    { date: "19 Nov", value: 0.5 },
+  ];
+
+
 const HomeHeroSection = () => {
-  return (
+  
+    
+  
+    return (
     <div className="grid grid-cols-1 md:grid-cols-5 md:grid-rows-2 gap-4">
       <div className="md:col-span-2 md:row-span-1 md:col-start-3 md:row-start-1">
         <div
@@ -80,3 +99,5 @@ const HomeHeroSection = () => {
     </div>
   );
 };
+
+export default HomeHeroSection;
