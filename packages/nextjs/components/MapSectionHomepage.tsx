@@ -37,7 +37,7 @@ const stations = [
 
 const MapSectionHomepage = () => {
   return (
-    <div className="mx-auto text-center">
+    <div className="mx-auto mt-10 text-center">
       <p className="mx-auto font-bold text-5xl mt-10 mb-10">Stations</p>
       <Map
         stations={stations}
