@@ -13,6 +13,17 @@ const Map = ({ stations, center, userLocation, showAuctionButton }: any) => {
     iconSize: [32, 32],
     popupAnchor: [-1, -16],
   });
+    const stationIcon = L.icon({
+    iconUrl: "/mapIcon2.svg",
+    iconRetinaUrl: "/mapIcon2.svg",
+    shadowUrl: "/shadow.svg",
+    shadowRetinaUrl: "/shadow.svg",
+    shadowSize: [80, 80],
+    shadowAnchor: [30, 45],
+    iconSize: [50, 50],
+    iconAnchor: [25, 50],
+    popupAnchor: [-1, -58],
+  });
 
   return (
     <MapContainer
@@ -35,7 +46,7 @@ const Map = ({ stations, center, userLocation, showAuctionButton }: any) => {
 
       {stations.map((station: any, index: number) => {
         return (
-          <Marker key={index} position={[station.x, station.y]}>
+          <Marker key={index} position={[station.x, station.y]} icon={stationIcon}>
             <Popup className="bg-black">
               <div className="leading-[1px]">
                 <p>{station.address}</p>
