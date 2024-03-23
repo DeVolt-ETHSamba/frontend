@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Step } from "~~/components/Step";
 import MapSectionHomepage from "~~/components/MapSectionHomepage";
 import Map from "~~/components/Map";
-
+import Image from "next/image";
 import GetUserGeolocationDialog from "~~/components/GetUserGeolocationDialog";
 import { useGeolocation } from "@uidotdev/usehooks";
 
@@ -70,7 +70,13 @@ const SellPower: NextPage = () => {
             <div className="bg-[#010101]  w-full h-64 -mt-12 z-0 ">
                 <div className="flex gap-x-5 w-full m-8">
                     <div className="w-[30%]">
-                        <p className="text-3xl">oii</p>
+                        <p className="text-3xl text-[#37e231] font-bold">Auction status</p>
+                        <div className="">
+                            <Image src="./wallet.svg"  alt="ttt" width={40} height={40}/>
+                            <p>teste</p>
+                        </div>
+                        <Image src="./capacity.svg"  alt="ttt" width={40} height={40}/>
+                        <Image src="./pin.svg"  alt="ttt" width={40} height={40}/>
                     </div>
                     <p>1</p>
                 </div>

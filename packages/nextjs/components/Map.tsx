@@ -3,27 +3,44 @@ import L from "leaflet";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet/dist/leaflet.css";
-import { MapContainer, Marker, Popup, TileLayer, Tooltip } from "react-leaflet";
+import { useEffect } from "react";
+import { MapContainer, MapContainerProps, Marker, Popup, TileLayer, Tooltip, useMap } from "react-leaflet";
 import { Progress } from "~~/components/ui/progress";
 
+const iAmHereIcon = L.icon({
+  iconUrl: "/mapIcon.svg",
+  iconRetinaUrl: "/mapIcon.svg",
+  iconSize: [32, 32],
+  popupAnchor: [-1, -16],
+});
+const stationIcon = L.icon({
+  iconUrl: "/mapIcon2.svg",
+  iconRetinaUrl: "/mapIcon2.svg",
+  shadowUrl: "/shadow.svg",
+  shadowRetinaUrl: "/shadow.svg",
+  shadowSize: [80, 80],
+  shadowAnchor: [30, 45],
+  iconSize: [50, 50],
+  iconAnchor: [25, 50],
+  popupAnchor: [-1, -58],
+});
+
+const MapUpdater = ({ mapCenter }:any) => {
+  const map = useMap();
+
+  useEffect(() => {
+    map.flyTo(mapCenter, 16, {
+      animate: true,
+      duration: 5.0 // Duração da animação em segundos
+    });
+  }, [mapCenter, map]);
+
+  return null;
+};
+
+
+
 const Map = ({ stations, center, userLocation, showAuctionButton }: any) => {
-  const iAmHereIcon = L.icon({
-    iconUrl: "/mapIcon.svg",
-    iconRetinaUrl: "/mapIcon.svg",
-    iconSize: [32, 32],
-    popupAnchor: [-1, -16],
-  });
-  const stationIcon = L.icon({
-    iconUrl: "/mapIcon2.svg",
-    iconRetinaUrl: "/mapIcon2.svg",
-    shadowUrl: "/shadow.svg",
-    shadowRetinaUrl: "/shadow.svg",
-    shadowSize: [80, 80],
-    shadowAnchor: [30, 45],
-    iconSize: [50, 50],
-    iconAnchor: [25, 50],
-    popupAnchor: [-1, -58],
-  });
 
   return (
     <>
@@ -38,10 +55,12 @@ const Map = ({ stations, center, userLocation, showAuctionButton }: any) => {
       </style>
       <MapContainer
         center={center}
-        zoom={16}
+        zoom={1}
         scrollWheelZoom={true}
-        style={{ width: "100%", height: "350px", borderRadius: "15px" }}
+        style={{ width: "100%", height: "550px", borderRadius: "15px" }}
       >
+              <MapUpdater mapCenter={center} />
+
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

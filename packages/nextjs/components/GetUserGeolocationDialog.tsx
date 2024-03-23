@@ -9,16 +9,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~~/components/ui/dialog";
+import { useLocation } from "~~/contexts/LocationContext";
 
-interface props {
-  setUserLocationProp: (location:number[]) => void;
-
-}
-
-const GetUserGeolocationDialog = ({setUserLocationProp}:props) => {
+const GetUserGeolocationDialog = () => {
 
   const geolocation = useGeolocation();
-
+  const {location, updateLocation} = useLocation();
   const [userLocation, setUserLocation]  = useState([0,0])
   const [isDialogOpen, setDialogOpen] = useState(false);
 
@@ -26,17 +22,17 @@ const GetUserGeolocationDialog = ({setUserLocationProp}:props) => {
     if ((geolocation.latitude && geolocation.longitude)) {
       console.log("okay");
       setDialogOpen(false);
-      setUserLocationProp([geolocation.latitude, geolocation.longitude])
+      updateLocation(geolocation.latitude, geolocation.longitude)
     } else if (userLocation[0] && userLocation[1]){
       setDialogOpen(false);
-      setUserLocationProp(userLocation)
+      updateLocation(userLocation[0], userLocation[1])
     } else {
       setDialogOpen(true);
     }
   }, [geolocation, userLocation]);
 
   const ignoreGeolocation = () => {
-    setUserLocation([-23.5571341,-46.7043563])
+    setUserLocation([-22.980214, -43.217508])
   }
 
   return (

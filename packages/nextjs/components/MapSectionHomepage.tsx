@@ -1,5 +1,7 @@
-import Map from "./Map";
+import { useMemo } from "react";
 import { Progress } from "./ui/progress";
+import { useLocation } from "~~/contexts/LocationContext";
+import dynamic from "next/dynamic";
 
 const stations = [
   {
@@ -37,6 +39,18 @@ const stations = [
 ];
 
 const MapSectionHomepage = () => {
+
+  const Map = useMemo(() => dynamic(
+    () => import('~~/components/Map'),
+    { 
+      loading: () => <p>map is loading</p>,
+      ssr: false
+    }
+  ), [])
+
+  const { location, updateLocation } = useLocation();
+
+
   return (
     <div className="w-full">
       <div
@@ -63,8 +77,8 @@ const MapSectionHomepage = () => {
       </div>
       <Map
         stations={stations}
-        center={[-23.5571341, -46.7043563]}
-        userLocation={[-23.5581341, -46.7043563]}
+        center={location}
+        userLocation={location}
         showAuctionButton={false}
       />
     </div>
