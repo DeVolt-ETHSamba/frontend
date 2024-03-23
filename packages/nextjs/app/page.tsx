@@ -68,7 +68,7 @@ const Home: NextPage = () => {
 
           <div className="md:row-span-1 md:col-start-5 md:row-start-1">
             <div className="bg-[#D9D9D9] text-white p-4 rounded-3xl shadow-lg mb-4  flex flex-col flex-1 w-full h-full">
-              <h1>Impactful Phrase Here</h1>
+              <h1>Decentralize Power: Energize with Blockchain.</h1>
             </div>
           </div>
 
