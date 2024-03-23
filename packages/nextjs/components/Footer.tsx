@@ -13,23 +13,26 @@ import { useGlobalState } from "~~/services/store/store";
  * Site footer
  */
 export const Footer = () => {
-  const nativeCurrencyPrice = useGlobalState(state => state.nativeCurrencyPrice);
-  const { targetNetwork } = useTargetNetwork();
-  const isLocalNetwork = targetNetwork.id === hardhat.id;
-
   return (
-    <div className="min-h-0 py-5 px-1 mb-11 lg:mb-0">
-      <div>
-        <div className="fixed flex justify-between items-center w-full z-10 p-4 bottom-0 left-0 pointer-events-none">
-          <SwitchTheme className={`pointer-events-auto ${isLocalNetwork ? "self-end md:self-auto" : ""}`} />
-        </div>
-      </div>
-      <div className="w-full">
-        <ul className="menu menu-horizontal w-full">
-          <div className="flex justify-center items-center gap-2 text-sm w-full">
+    <footer className="bg-[#161616] text-white py-4">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex justify-between items-center">
+          <div>
+            <p>&copy; {new Date().getFullYear()} DeVolt Energy. All rights reserved.</p>
           </div>
-        </ul>
+          <div>
+            <a href="https://twitter.com/devoltenergy" className="mr-4 hover:text-gray-300">
+              Twitter
+            </a>
+            <a href="https://facebook.com/devoltenergy" className="mr-4 hover:text-gray-300">
+              Facebook
+            </a>
+            <a href="https://linkedin.com/company/devoltenergy" className="hover:text-gray-300">
+              LinkedIn
+            </a>
+          </div>
+        </div> 
       </div>
-    </div>
+    </footer>
   );
 };
