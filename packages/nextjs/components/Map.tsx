@@ -43,7 +43,6 @@ const Map = ({ stations, center, userLocation, showAuctionButton }: any) => {
         style={{ width: "100%", height: "350px", borderRadius: "15px" }}
       >
         <TileLayer
-          style={{ borderRadius: "15px" }}
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
