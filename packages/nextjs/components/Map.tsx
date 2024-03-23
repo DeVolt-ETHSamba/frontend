@@ -27,22 +27,20 @@ const Map = ({ stations, center, userLocation, showAuctionButton }: any) => {
 
   return (
     <>
-    <style>
-      {
-        `
+      <style>
+        {`
         .leaflet-popup-content-wrapper, .leaflet-popup-tip {
           background-color: #222;
           border-radius: 10px;
           text-color: white;
         }
-        `
-      }
-    </style>
+        `}
+      </style>
       <MapContainer
         center={center}
         zoom={16}
         scrollWheelZoom={true}
-        style={{ width: "1100px", height: "800px", borderRadius: "15px" }}
+        style={{ width: "100%", height: "350px", borderRadius: "15px" }}
       >
         <TileLayer
           style={{ borderRadius: "15px" }}

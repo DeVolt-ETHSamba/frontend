@@ -23,6 +23,21 @@ h1 {
   color: #ffffff;
 }
 
+.h1-white-big {
+  font-size: 3rem;
+  color: #ffffff;
+  font-weight: 600;
+  line-height: 1.2;
+
+}
+
+.h1-big {
+  font-size: 3rem;
+  font-weight: 600;
+  line-height: 1.2;
+
+}
+
 
 
 h2 {
