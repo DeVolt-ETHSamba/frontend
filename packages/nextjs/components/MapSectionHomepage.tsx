@@ -52,7 +52,7 @@ const MapSectionHomepage = () => {
 
         <h1 className="text-5xl text-white">Nearest to you:</h1>
         <div className="leading-[0]">
-            <p className="text-2xl font-bold">Piracanjuba st., 240</p>
+            <p className="text-2xl font-bold">Piracanjuba st., 240 <span className="font-normal text-xl">2.4km</span></p>
             <p className="text-lg font-semibold">Energy available:</p>
             <Progress value={21} className="bg-gray-100 "/>
             <p className="text-xl">21% (12 A/h)</p>
