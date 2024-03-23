@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useCallback, useRef, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bars3Icon, BugAntIcon } from "@heroicons/react/24/outline";
-import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
-import { useOutsideClick } from "~~/hooks/scaffold-eth";
+import { BugAntIcon } from "@heroicons/react/24/outline";
+import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 
 type HeaderMenuLink = {
   label: string;
@@ -56,13 +55,6 @@ export const HeaderMenuLinks = () => {
  * Site header
  */
 export const Header = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const burgerMenuRef = useRef<HTMLDivElement>(null);
-  useOutsideClick(
-    burgerMenuRef,
-    useCallback(() => setIsDrawerOpen(false), []),
-  );
-
   return (
     <div className="sticky top-0 navbar bg-base-100 min-h-0 flex-shrink-0 justify-between z-20">
       <div className="navbar-start w-auto">
@@ -73,9 +65,9 @@ export const Header = () => {
         </Link>
       </div>
       <div className="navbar-end flex-grow mr-4">
-        <h1 className="ml-4 mr-4">Home</h1>
-        <h1 className="ml-4 mr-4">Buy</h1>
-        <h1 className="ml-4 mr-8">Sell</h1>
+        <header className="ml-4 mr-4">Home</header>
+        <header className="ml-4 mr-4">Buy</header>
+        <header className="ml-4 mr-8">Sell</header>
         <RainbowKitCustomConnectButton />
       </div>
     </div>
