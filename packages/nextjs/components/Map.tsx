@@ -19,7 +19,7 @@ const Map = ({ stations, center, userLocation, showAuctionButton }: any) => {
       center={center}
       zoom={16}
       scrollWheelZoom={true}
-      style={{ width: "900px", height: "500px", borderRadius: "15px" }}
+      style={{ width: "1100px", height: "800px", borderRadius: "15px" }}
     >
       <TileLayer
       

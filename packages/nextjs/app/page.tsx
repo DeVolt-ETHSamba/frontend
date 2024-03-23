@@ -1,5 +1,6 @@
 "use client";
 
+import MapSectionHomepage from "~~/components/MapSectionHomepage";
 import type { NextPage } from "next";
 
 const Home: NextPage = () => {
@@ -62,6 +63,7 @@ const Home: NextPage = () => {
           <h1 className="h1-white">Sell Your Power</h1>
         </div>
       </div>
+      <MapSectionHomepage/>
     </div>
   );
 };
