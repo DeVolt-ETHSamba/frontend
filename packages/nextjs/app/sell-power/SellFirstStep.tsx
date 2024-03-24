@@ -9,18 +9,40 @@ import findClosestStation from "~~/utils/calculateNearestStation";
 import makePercentage from "~~/utils/makePercentage";
 
 const mockStations: Station[] = [
-  {
-    id: 1,
-    latitude: -1,
-    longitude: -1,
-    address: "Rua piracanjuba, 240",
-    maxVoltage: 45,
-    availablePlugs: "Tipo S2, BYD, BMW",
-    meanPrice: 30,
-    batteryLevel: 50,
-    maxCapacity: 100,
-  }
-];
+    {
+      latitude: -22.979267, 
+      longitude: -43.212659,
+      address: "Rio de Janeiro, RJ, Brazil",
+      maxVoltage: 45,
+      availablePlugs: "Tipo S2, BYD, BMW",
+      id: 1,
+      meanPrice: 30,
+      batteryLevel: 50,
+      maxCapacity: 100,
+    },
+    {
+      latitude: -22.970970,
+      longitude: -43.217340,
+      address: "Rio de Janeiro, RJ, Brazil",
+      maxVoltage: 45,
+      availablePlugs: "Tipo S2, BYD, BMW",
+      id: 2,
+      meanPrice: 30,
+      batteryLevel: 50,
+      maxCapacity: 100,
+    },
+    {
+      latitude: -22.982116185222058, 
+      longitude: -43.21677437969157,
+      address: "Rio de Janeiro, RJ, Brazil",
+      maxVoltage: 45,
+      availablePlugs: "Tipo S2, BYD, BMW",
+      id: 3,
+      meanPrice: 30,
+      batteryLevel: 50,
+      maxCapacity: 100,
+    }
+  ];
 
 interface Props {
   isActive: boolean;

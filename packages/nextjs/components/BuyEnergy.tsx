@@ -21,7 +21,7 @@ export const BuyEnergy = ({averagePrice, value, setValue, children}: buyEnergyPr
     <div className="flex flex-col justify-center items-center">
       <input type="range" min={0} max={100} value={value} onChange={handleChange} className="range px-2" />
       <p className="font-bold text-2xl px-2">{value}</p>
-      <p className="text-sm -m-3 px-2">DVBrl/KWh</p>
+      <p className="text-sm -m-3 px-2">VOLTZ/KW</p>
     </div>
     <div className="flex justify-between mt-2">
       <p className="font-bold text-xl">Total to be paid: {value * averagePrice}</p>

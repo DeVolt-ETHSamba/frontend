@@ -14,7 +14,41 @@ import { LocationProvider } from "~~/contexts/LocationContext";
 import Station from "~~/types/station";
 
 const BuyPower: NextPage = () => {
-  const mockStations: Station[] = [];
+  const mockStations: Station[] = [
+        {
+          latitude: -22.979267, 
+          longitude: -43.212659,
+          address: "Rio de Janeiro, RJ, Brazil",
+          maxVoltage: 45,
+          availablePlugs: "Tipo S2, BYD, BMW",
+          id: 1,
+          meanPrice: 30,
+          batteryLevel: 50,
+          maxCapacity: 100,
+        },
+        {
+          latitude: -22.970970,
+          longitude: -43.217340,
+          address: "Rio de Janeiro, RJ, Brazil",
+          maxVoltage: 45,
+          availablePlugs: "Tipo S2, BYD, BMW",
+          id: 2,
+          meanPrice: 30,
+          batteryLevel: 50,
+          maxCapacity: 100,
+        },
+        {
+          latitude: -22.982116185222058, 
+          longitude: -43.21677437969157,
+          address: "Rio de Janeiro, RJ, Brazil",
+          maxVoltage: 45,
+          availablePlugs: "Tipo S2, BYD, BMW",
+          id: 3,
+          meanPrice: 30,
+          batteryLevel: 50,
+          maxCapacity: 100,
+        }
+      ];
   const [hallo, setHallo] = useState(0)
 
   const abi = parseAbi([
@@ -27,7 +61,7 @@ const BuyPower: NextPage = () => {
   const bytecode = encodeFunctionData({
     abi: abi,
     functionName: 'placeBid',
-    args: ['id', '', '10', '10']
+    args: ['id', '0x0000000000000000000000000000000000000000', '10', '10']
   })
 
   const { writeAsync, isLoading, isMining } = useScaffoldContractWrite({

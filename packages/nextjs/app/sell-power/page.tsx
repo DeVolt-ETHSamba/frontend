@@ -142,7 +142,7 @@ const SellPower: NextPage = () => {
               />
               <div className="flex flex-col justify-center items-center">
                 <p className="font-bold text-3xl text-[#1e1e1e]">{selectedPrice}</p>
-                <p className="text-[#1e1e1e] text-md -m-3">DVBrl/KWh</p>
+                <p className="text-[#1e1e1e] text-md -m-3">VOLTZ/KW</p>
                 <p className="text-[#1e1e1e] text-sm">
                   *Competitive pricing attracts buyers, fostering a dynamic and fair exchange.
                 </p>
@@ -169,7 +169,7 @@ const SellPower: NextPage = () => {
                   onChange={e => setSelectedAmount(parseInt(e.target.value))}
                   placeholder="Enter the desired amount"
                 />
-                <p className="font-bold">kWh</p>
+                <p className="font-bold">kW</p>
               </label>
               <div className="flex justify-between mt-28">
                 <button className="rounded-full bg-[#1e1e1e] px-4 py-4" onClick={() => setActiveStep(2)}>

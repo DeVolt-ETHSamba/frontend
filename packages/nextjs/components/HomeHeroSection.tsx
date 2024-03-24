@@ -23,7 +23,7 @@ const HomeHeroSection = () => {
           style={{ backgroundImage: `url('/img1.png')`, backgroundSize: "cover" }}
         >
           {/* Texto com um z-index mais alto */}
-          <p className="text-4xl font-bold z-10 relative">Average energy price: 0,88/kWh</p>
+          <p className="text-4xl font-bold z-10 relative">Average energy price: 0,88/kW</p>
           {/* Gráfico com z-index mais baixo para ficar atrás do texto */}
           <div className="absolute left-0 right-0 bottom-0  h-1/2">
             <ResponsiveContainer width="100%" height="100%">
