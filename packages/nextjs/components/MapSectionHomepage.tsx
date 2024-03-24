@@ -4,6 +4,7 @@ import { Progress } from "./ui/progress";
 import { useLocation } from "~~/contexts/LocationContext";
 import Station from "~~/types/station";
 import findClosestStation from "~~/utils/calculateNearestStation";
+import { MapIcon, MapPinned }  from "lucide-react";
 
 const stations: Station[] = [
   {
@@ -94,21 +95,22 @@ const MapSectionHomepage = () => {
         className="bg-green-500 text-white rounded-t-3xl shadow-lg pb-8 w-full flex justify-around items-center"
         style={{ backgroundImage: "linear-gradient(to right, #000000 , #14591F)" }}
       >
-        <h1 className="text-5xl text-white">Charging points near you:</h1>
+        <div className="flex">
+        <p className="text-5xl text-white">Closest charging point:</p>
+        </div>
         <div className="leading-[0]">
           <p className="text-2xl font-bold">
             {closestStation?.address || "---"} <span className="font-normal text-xl">{closestStationDistance}Km</span>
           </p>
           <p className="text-lg font-semibold">Energy available:</p>
-          <Progress value={21} className="bg-gray-100 " />
-          <p className="text-xl">21% (12 A/h)</p>
+          <Progress value={closestStation?.availableEnergyPercentage} className="bg-gray-100 " />
+          <p className="text-xl">{closestStation?.availableEnergyPercentage}% ({closestStation?.maxVoltage}A/h)</p>
           <div className="flex gap-4">
-            <button className="font-semibold text-xl bg-primary rounded-lg text-black px-6 py-2 transition hover:scale-105">
-              Navigate
+          <a rel="noopener noreferrer" target="_blank" href={`https://www.google.com/maps/search/${closestStation?.x || 0},+${closestStation?.y||0}?entry=tts`}>
+            <button className=" flex font-semibold gap-2 text-xl bg-[#eee] rounded-lg text-black pl-3 pr-6 py-2 transition  hover:scale-105">
+              <MapIcon size={30}/> Take me there!
             </button>
-            <button className="font-medium text-xl bg-gray-200 rounded-lg text-black px-6 py-2 transition hover:scale-105">
-              More Information
-            </button>
+                    </a>
           </div>
         </div>
       </div>
