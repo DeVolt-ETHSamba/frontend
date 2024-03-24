@@ -114,6 +114,8 @@ const Map = ({
               <Marker key={station.id} position={[station.x, station.y]} icon={stationIcon}>
                 <Popup>
                   <div className="leading-[1px] text-white">
+                    <p className="font-bold pt-4">Station Name:</p>
+                    <p className="pb-4">{station.stationName} </p>
                     <p>{station.address}</p>
                     <a href={`https://www.google.com/maps/search/${station.x},+${station.y}?entry=tts`}>
                       ver no Google Maps
@@ -133,6 +135,7 @@ const Map = ({
 
                   <p className="font-bold pt-4">Price per DVBrl/KWh:</p>
                   <p className="">{station.averagePrice} </p>
+
                     <button
                       onClick={() => {
                         if (setSelectedStation) {

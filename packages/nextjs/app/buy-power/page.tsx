@@ -1,21 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import { useGeolocation } from "@uidotdev/usehooks";
 import type { NextPage } from "next";
-import GetUserGeolocationDialog from "~~/components/GetUserGeolocationDialog";
 import Map from "~~/components/Map";
-import MapSectionHomepage from "~~/components/MapSectionHomepage";
-import { Step } from "~~/components/Step";
+import { BuyEnergy } from "~~/components/BuyEnergy";
+import { StationData } from "~~/components/StationData";
 
 const SellPower: NextPage = () => {
   
-  const [value, setValue] = useState(0);
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(Number(event.target.value));
-  };
-
+  
   const stations = [
     {
       id: 1,
@@ -26,7 +19,8 @@ const SellPower: NextPage = () => {
       availablePlugs: "Tipo S2, BYD, BMW",
       availableEnergyPercentage: 12,
       compatibility: "DC CCS2, CHAdeMO",
-      averagePrice: 6.40
+      averagePrice: 6.40,
+      stationName: "AABB"
     },
     {
       id: 2,
@@ -37,7 +31,8 @@ const SellPower: NextPage = () => {
       availablePlugs: "Tipo S2, BYD, BMW",
       availableEnergyPercentage: 30,
       compatibility: "CHAdeMO, AC Type 2",
-      averagePrice: 7.10
+      averagePrice: 7.10,
+      stationName: "CCDD"
     },
     {
       id: 3,
@@ -48,7 +43,8 @@ const SellPower: NextPage = () => {
       availablePlugs: "Tipo S2, BYD, BMW",
       availableEnergyPercentage: 93,
       compatibility: "CHAdeMO, AC Type 2",
-      averagePrice: 6.99
+      averagePrice: 6.99,
+      stationName: "EEFF"
     },
     {
       id: 4,
@@ -59,7 +55,8 @@ const SellPower: NextPage = () => {
       availablePlugs: "Tipo S2, BYD, BMW",
       availableEnergyPercentage: 51,
       compatibility: "AC Type 2",
-      averagePrice: 6.50
+      averagePrice: 6.50,
+      stationName: "GGHH"
     },
   ];
 
@@ -73,6 +70,7 @@ const SellPower: NextPage = () => {
     availableEnergyPercentage: number;
     compatibility: string;
     averagePrice: number;
+    stationName: string;
   }
 
 
@@ -85,8 +83,15 @@ const SellPower: NextPage = () => {
       availablePlugs: "",
       availableEnergyPercentage: 0,
       compatibility: "",
-      averagePrice: 0
+      averagePrice: 0,
+      stationName: ""
   });
+  const [value, setValue] = useState(0);
+  const [stationName, setStationName] = useState("");
+  const [address, setAddress] = useState("");
+  const [compatibility, setCompatibility] = useState("");
+  const [averagePrice, setAveragePrice] = useState(0);
+  const [availableEnergyPercentage, setAvailableEnergyPercentage] = useState(0);
 
   return (
     <>
@@ -106,46 +111,24 @@ const SellPower: NextPage = () => {
               setSelectedStation={setSelectedStation}
             />
           </div>
-          <div className="bg-[#010101] w-full -mt-12 z-0 py-8 rounded-lg">
-            <p className="text-3xl text-[#37e231] font-bold ml-8">Estation AABB</p>
+          <div className="bg-[#010101] w-full -mt-12 z-0 ml-8 py-8 rounded-lg">          
             <div className="flex gap-x-5 w-full my-4 mx-8 divide-x">
               <div className="w-[30%]">
-              <div className="flex gap-2 items-center my-4">
-                  <Image src="./pin.svg" alt="ttt" width={40} height={40} />
-                  <p className="font-bold">Address</p><span>{selectedStation["address"]||"---"}</span> 
-                </div>
-                <div className="flex gap-2 items-center my-4">
-                  <Image src="./charger.svg" alt="ttt" width={40} height={40} />
-                  <b>Compatibility</b><span>{selectedStation["compatibility"]||"---"}</span>
-                </div>
-                <div className="flex gap-2 items-center my-4">
-                  <Image src="./wallet.svg" alt="ttt" width={40} height={40} />
-                  <b>Price per DVBrl/KWh</b><span>{selectedStation["averagePrice"]||"---"}</span>
-                </div>
-                <div className="flex gap-2 items-center my-4">
-                  <Image src="./capacity.svg" alt="ttt" width={40} height={40} />
-                  <p className="font-bold">Capacity</p><span>R${selectedStation["availableEnergyPercentage"]||"---"}</span><span>%</span> 
-                </div>
+                <StationData
+                  selectedStation={selectedStation}
+                  setStationName={setStationName}
+                  setAddress={setAddress}
+                  setCompatibility={setCompatibility}
+                  setAveragePrice={setAveragePrice}
+                  setAvailableEnergyPercentage={setAvailableEnergyPercentage}
+                  />
               </div>
               <div className="w-[70%] pl-12">
-                <div className="w-[90%] bg-[#37e231] h-full rounded-lg p-4">
-                  <p className="text-2xl font-bold">Buy Energy</p>
-                  <p>Amount of energy:</p>
-                  <div className="flex flex-col justify-center items-center">
-                    <input type="range" min={0} max={100} value={value} onChange={handleChange} className="range px-2" />
-                    <p className="font-bold text-2xl text-[#1e1e1e] px-2">{value}</p>
-                    <p className="text-[#1e1e1e] text-sm -m-3 px-2">DVBrl/KWh</p>
-                  </div>
-                  <div className="flex justify-between mt-2">
-                    <p className="font-bold text-xl">Total to be paid: {value * 2}</p>
-                    <button className="rounded-full bg-[#1e1e1e] px-8 py-2">
-                      Buy energy
-                    </button>
-                  </div>
-                  
-                </div>            
+                  <BuyEnergy
+                  value = {value}
+                  setValue = {setValue}
+                  />       
               </div>
-
             </div>
           </div>
         </div>
