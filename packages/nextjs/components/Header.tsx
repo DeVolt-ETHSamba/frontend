@@ -65,9 +65,17 @@ export const Header = () => {
         </Link>
       </div>
       <div className="navbar-end flex-grow mr-4">
-        <header className="ml-4 mr-4">Home</header>
-        <header className="ml-4 mr-4">Buy</header>
-        <header className="ml-4 mr-8">Sell</header>
+        <div className="flex mx-8">
+          <Link href="/" passHref className="flex items-center gap-2 ml-4 mr-6">
+            <header className="ml-4 mr-4 hover:text-primary duration-100">Home</header>
+          </Link>
+          <Link href="/sell-power" passHref className="flex items-center gap-2 ml-4 mr-6">
+            <header className="ml-4 mr-4 hover:text-primary duration-100">Sell</header>
+          </Link>
+          <Link href="/buy-power" passHref className="flex items-center gap-2 ml-4 mr-6">
+            <header className="ml-4 mr-4 hover:text-primary duration-100">Buy</header>
+          </Link>
+        </div>
         <RainbowKitCustomConnectButton />
       </div>
     </div>

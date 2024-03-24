@@ -8,19 +8,19 @@ module.exports = {
     themes: [
       {
         light: {
-          primary: "#93BBFB",
+          primary: "#3AFF4E",
           "primary-content": "#161616",
-          secondary: "#DAE8FF",
+          secondary: "#3AFF4E",
           "secondary-content": "#161616",
-          accent: "#93BBFB",
-          "accent-content": "#161616",
-          neutral: "#161616",
-          "neutral-content": "#ffffff",
-          "base-100": "#ffffff",
-          "base-200": "#f4f8ff",
-          "base-300": "#DAE8FF",
-          "base-content": "#161616",
-          info: "#93BBFB",
+          accent: "#3AFF4E",
+          "accent-content": "#F9FBFF",
+          neutral: "#F9FBFF",
+          "neutral-content": "#385183",
+          "base-100": "#1E1E1E",
+          "base-200": "#1E1E1E",
+          "base-300": "#161616",
+          "base-content": "#F9FBFF",
+          info: "#385183",
           success: "#34EEB6",
           warning: "#FFCF72",
           error: "#FF8863",
@@ -29,6 +29,7 @@ module.exports = {
 
           ".tooltip": {
             "--tooltip-tail": "6px",
+            "--tooltip-color": "oklch(var(--p))",
           },
           ".link": {
             textUnderlineOffset: "2px",

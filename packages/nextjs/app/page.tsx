@@ -11,7 +11,7 @@ const Home: NextPage = () => {
   return (
     <LocationProvider>
       <GetUserGeolocationDialog />
-      <div className="mt-24 w-full flex flex-col md:grid-cols-2 gap-4">
+      <div className="my-16 w-full flex flex-col md:grid-cols-2 gap-4">
         <div className="mx-auto md:w-10/12 w-11/12">
           <HomeHeroSection />
           <div className="md:col-span-5 md:row-span-1 md:col-start-1 md:row-start-3 mt-6">

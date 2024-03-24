@@ -127,10 +127,16 @@ const Map = ({
                     <p className="font-bold ">Carga disponível:</p>
                     <Progress className="bg-slate-300" value={station.availableEnergyPercentage}></Progress>
                     <p className="">{station.availableEnergyPercentage}% (12 A/h)</p>
+
+                  <p className="font-bold pt-4">Compatibility:</p>
+                  <p className="">{station.compatibility} </p>
+
+                  <p className="font-bold pt-4">Price per DVBrl/KWh:</p>
+                  <p className="">{station.averagePrice} </p>
                     <button
                       onClick={() => {
                         if (setSelectedStation) {
-                          setSelectedStation(station);
+                            setSelectedStation(station);
                         }
                       }}
                       className="bg-primary p-4 px-6 rounded font-bold hover:bg-green-400 transition"

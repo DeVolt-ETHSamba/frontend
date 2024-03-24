@@ -10,7 +10,7 @@ import MapSectionHomepage from "~~/components/MapSectionHomepage";
 import { Step } from "~~/components/Step";
 
 const SellPower: NextPage = () => {
-  const [activeStep, setActiveStep] = useState(1);
+  
   const [value, setValue] = useState(0);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(Number(event.target.value));
@@ -25,6 +25,8 @@ const SellPower: NextPage = () => {
       maxVoltage: 45,
       availablePlugs: "Tipo S2, BYD, BMW",
       availableEnergyPercentage: 12,
+      compatibility: "DC CCS2, CHAdeMO",
+      averagePrice: 6.40
     },
     {
       id: 2,
@@ -34,6 +36,8 @@ const SellPower: NextPage = () => {
       maxVoltage: 45,
       availablePlugs: "Tipo S2, BYD, BMW",
       availableEnergyPercentage: 30,
+      compatibility: "CHAdeMO, AC Type 2",
+      averagePrice: 7.10
     },
     {
       id: 3,
@@ -43,6 +47,8 @@ const SellPower: NextPage = () => {
       maxVoltage: 45,
       availablePlugs: "Tipo S2, BYD, BMW",
       availableEnergyPercentage: 93,
+      compatibility: "CHAdeMO, AC Type 2",
+      averagePrice: 6.99
     },
     {
       id: 4,
@@ -52,8 +58,35 @@ const SellPower: NextPage = () => {
       maxVoltage: 45,
       availablePlugs: "Tipo S2, BYD, BMW",
       availableEnergyPercentage: 51,
+      compatibility: "AC Type 2",
+      averagePrice: 6.50
     },
   ];
+
+  interface Station {
+    id: number;
+    x: number;
+    y: number;
+    address: string;
+    maxVoltage: number;
+    availablePlugs: string;
+    availableEnergyPercentage: number;
+    compatibility: string;
+    averagePrice: number;
+  }
+
+
+  const [selectedStation, setSelectedStation] = useState<Station>({
+      id: 0,
+      x: 0,
+      y: 0,
+      address: "",
+      maxVoltage: 0,
+      availablePlugs: "",
+      availableEnergyPercentage: 0,
+      compatibility: "",
+      averagePrice: 0
+  });
 
   return (
     <>
@@ -70,6 +103,7 @@ const SellPower: NextPage = () => {
               center={[-23.5571341, -46.7043563]}
               userLocation={[-23.5581341, -46.7043563]}
               width={"95%"}
+              setSelectedStation={setSelectedStation}
             />
           </div>
           <div className="bg-[#010101] w-full -mt-12 z-0 py-8 rounded-lg">
@@ -78,19 +112,19 @@ const SellPower: NextPage = () => {
               <div className="w-[30%]">
               <div className="flex gap-2 items-center my-4">
                   <Image src="./pin.svg" alt="ttt" width={40} height={40} />
-                  <b>Address</b>
+                  <p className="font-bold">Address</p><span>{selectedStation["address"]||"---"}</span> 
                 </div>
                 <div className="flex gap-2 items-center my-4">
                   <Image src="./charger.svg" alt="ttt" width={40} height={40} />
-                  <b>Compatibility</b>
+                  <b>Compatibility</b><span>{selectedStation["compatibility"]||"---"}</span>
                 </div>
                 <div className="flex gap-2 items-center my-4">
                   <Image src="./wallet.svg" alt="ttt" width={40} height={40} />
-                  <b>Price per DVBrl/KWh</b>
+                  <b>Price per DVBrl/KWh</b><span>{selectedStation["averagePrice"]||"---"}</span>
                 </div>
                 <div className="flex gap-2 items-center my-4">
                   <Image src="./capacity.svg" alt="ttt" width={40} height={40} />
-                  <b>Capacity</b>
+                  <p className="font-bold">Capacity</p><span>R${selectedStation["availableEnergyPercentage"]||"---"}</span><span>%</span> 
                 </div>
               </div>
               <div className="w-[70%] pl-12">

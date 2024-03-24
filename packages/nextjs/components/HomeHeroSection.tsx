@@ -26,7 +26,7 @@ const HomeHeroSection = () => {
           style={{ backgroundImage: `url('/img1.png')`, backgroundSize: "cover" }}
         >
           {/* Texto com um z-index mais alto */}
-          <h1 className="h1-white-big z-10 relative">Average energy price: 0,88/kWh</h1>
+          <p className="text-4xl font-bold z-10 relative">Average energy price: 0,88/kWh</p>
           {/* Gráfico com z-index mais baixo para ficar atrás do texto */}
           <div className="absolute left-0 right-0 bottom-0  h-1/2">
             <ResponsiveContainer width="100%" height="100%">
@@ -53,18 +53,18 @@ const HomeHeroSection = () => {
 
       <div className="md:row-span-1 md:col-start-5 md:row-start-1">
         <div className="bg-[#D9D9D9] text-white p-4 rounded-3xl shadow-lg mb-4  flex flex-col flex-1 w-full h-full">
-          <h1>Decentralize Power: Energize with Blockchain.</h1>
+          <p className="font-bold text-3xl text-[#3c3c3c]">Decentralize Power: Energize with Blockchain.</p>
         </div>
       </div>
 
       <div className="md:col-span-2 md:row-span-1 md:col-start-4 md:row-start-2">
         <div className="bg-green-500 text-white p-4 rounded-3xl shadow-lg flex flex-col items-center justify-center w-full h-full bg-gradient-to-tr from-black to-[#14591F]">
-          <h1 className="h1-white-big mb-4">Sell and Buy DeVolt Energy</h1>
+          <p className="text-5xl font-bold mb-8">Sell and Buy DeVolt Energy</p>
           <div className="flex space-x-4">
-            <button className="font-semibold text-xl bg-primary rounded-lg text-black px-6 py-2 transition hover:scale-105">
+            <button className="font-medium text-xl bg-[#161616] rounded-lg text-white px-8 py-3 transition  border-gray-100  border-2 hover:bg-[#37e231] hover:border-primary">
               Buy Energy
             </button>
-            <button className="font-medium text-xl bg-[#161616] rounded-lg text-white px-8 py-3 transition hover:scale-105  border-gray-100  border-2">
+            <button className="font-medium text-xl bg-[#161616] rounded-lg text-white px-8 py-3 transition  border-gray-100  border-2 hover:bg-[#37e231] hover:border-primary">
               Sell Energy
             </button>
           </div>
@@ -76,8 +76,8 @@ const HomeHeroSection = () => {
           className="bg-green-500 text-white p-4 rounded-lg shadow-lg w-full h-full "
           style={{ borderRadius: "25px", backgroundImage: "linear-gradient(to right, #171313 , #292929)" }}
         >
-          <h1 className="h1-white">Recharge With Renewable Energy</h1>
-          <img src="/lightning.png" className="float-left" alt="" />
+          <p className="text-4xl font-bold">Recharge With Renewable Energy</p>
+          <img src="/lightning.svg" className="float-right w-10 pb-2" alt="" />
         </div>
       </div>
 
@@ -88,7 +88,7 @@ const HomeHeroSection = () => {
         >
           <h1 className="h1-big p-5">Embracing Decentralized Energy Economy</h1>
 
-          <h2 className="text-sm mt-7">
+          <h2 className="mt-7">
             At DeVolt, our core mission is to dismantle the centralized paradigms of energy trade. We enable every
             household and business to take control of their energy destiny by offering a platform where they can trade
             energy assets directly. Join us to be part of a revolution that powers homes, supports communities, and
