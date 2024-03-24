@@ -37,9 +37,8 @@ const HomeHeroSection = () => {
                   interval="preserveStartEnd"
                   tickMargin={10}
                 />
-                {/* make typescript ignore the line under */}
                 {/* @ts-ignore */}
-                <Tooltip />
+                <Tooltip contentStyle={{ backgroundColor: "transparent", border: "none", color: "#fff" }} />
                 {/* @ts-ignore */}
                 <Line type="monotone" dataKey="value" stroke="#13FF2B" strokeWidth={4} dot={false} />
               </LineChart>
@@ -50,7 +49,16 @@ const HomeHeroSection = () => {
 
       <div className="md:row-span-1 md:col-start-5 md:row-start-1">
         <div className="bg-[#D9D9D9] text-white p-4 rounded-3xl shadow-lg mb-4  flex flex-col flex-1 w-full h-full">
-          <p className="font-bold text-3xl text-[#3c3c3c]">Decentralize Power: Energize with Blockchain.</p>
+          <p className="font-bold text-2xl text-[#3c3c3c]">Your balance:</p>
+          <h1>10.000 Volt </h1>
+          <h3 className=" text-gray-500">1 Volt = 1 USD </h3>
+          <div className="flex justify-end">
+            <Link href="https://github.com/DeVolt-ETHSamba">
+              <button className="mt-3 text-s bg-[#161616] rounded-full text-white px-3 py-2 transition  hover:bg-[#2e2e2e] hover:border-primary">
+                Go to wallet
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
 
