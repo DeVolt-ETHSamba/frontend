@@ -133,6 +133,8 @@ const SellPower: NextPage = () => {
 
   const [disableButton, setDisableButton] = useState("disabled bg-[#7c7c7c] pointer-events-none");
 
+  const [metaverseDialog, setMetaverseDialog] = useState(true);
+
   useEffect(() => {
     if (selectedStation.id == 0) return;
     window.scrollBy({
@@ -154,13 +156,16 @@ const SellPower: NextPage = () => {
 
   return (
     <LocationProvider>
-      <Dialog open={false}>
+      <Dialog open={metaverseDialog}>
         <DialogContent className="bg-[#1a1a1a] border-none shadow-lg">
           <DialogTitle className="text-3xl flex text-white pb-2 gap-3"> Warning: Metaverse ahead!</DialogTitle>
           <p className="font-semibold">
-            In the real world, drivers shouldn't need to buy their gas (or energy) on a website. This page only simulates what a fellow driver would see in a charge station.
+            In the real world, drivers shouldn't need to buy their gas (or energy) on a website before filling their tank up. This also apply to DeVolt, obviously.
           </p>
-          <button className="bg-primary text-black font-semibold px-4 py-2 rounded-lg hover:scale-105 transition">
+          <p className="">            
+             Keep in mind that this page only simulates what a driver would do in a charge station. In the real scenario, the driver would just pull up to the station, plug their car in, connect his/her wallet and choose the amount of energy to buy.
+          </p>
+          <button onClick={()=>setMetaverseDialog(false)} className="bg-primary text-black font-semibold px-4 py-2 rounded-lg hover:scale-105 transition">
             Got it!
           </button>
         </DialogContent>
