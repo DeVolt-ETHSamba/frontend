@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import Map from "~~/components/Map";
+import dynamic from 'next/dynamic';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useLocation } from "~~/contexts/LocationContext";
 import queryAllStations from '~~/utils/queryAllStations';
 
@@ -23,6 +23,15 @@ export const MapSectionBuypage = ({roundedTopCorners, roundedBottomCorners, stat
   
       });
     }, [location]);
+
+    const Map = useMemo(
+      () =>
+        dynamic(() => import("~~/components/Map"), {
+          loading: () => <p>map is loading</p>,
+          ssr: false,
+        }),
+      [],
+    );
 
   return (
     <>
