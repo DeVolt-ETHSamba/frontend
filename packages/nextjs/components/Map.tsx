@@ -6,6 +6,8 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import "leaflet/dist/leaflet.css";
 import { MapContainer, MapContainerProps, Marker, Popup, TileLayer, Tooltip, useMap } from "react-leaflet";
 import { Progress } from "~~/components/ui/progress";
+import Station from "~~/types/station";
+import makePercentage from "~~/utils/makePercentage";
 
 const iAmHereIcon = L.icon({
   iconUrl: "/mapIcon.svg",
@@ -109,34 +111,28 @@ const Map = ({
 
           {/* map the stations prop */}
 
-          {stations.map((station: any, index: number) => {
+          {stations.map((station: Station, index: number) => {
+            console.log(station.longitude)
             return (
-              <Marker key={station.id} position={[station.x, station.y]} icon={stationIcon}>
+              <Marker key={station.id} position={[station.latitude, station.longitude]} icon={stationIcon}>
                 <Popup>
                   <div className="leading-[1px] text-white">
-                    <p className="font-bold pt-4">Station Name:</p>
-                    <p className="pb-4">{station.stationName} </p>
+                    <p className="pb-4">{station.address||"Unnamed station"} </p>
                     <p>{station.address}</p>
-                    <a href={`https://www.google.com/maps/search/${station.x},+${station.y}?entry=tts`}>
+                    <a href={`https://www.google.com/maps/search/${station.latitude},+${station.longitude}?entry=tts`}>
                       Ver no Google Maps
                     </a>
-                    <p className="font-bold pt-4 ">
-                      Voltagem máxima: <span className="font-normal">{station.maxVoltage}V</span>
-                    </p>
-                    <p className="font-bold pb-4">
-                      Plugues disponíveis: <span className="font-normal">{station.availablePlugs}</span>
-                    </p>
                     <p className="font-bold ">Carga disponível:</p>
-                    <Progress className="bg-slate-300" value={station.availableEnergyPercentage}></Progress>
-                    <p className="">{station.availableEnergyPercentage}% (12 A/h)</p>
+                    <Progress className="bg-slate-300" value={makePercentage(station.batteryLevel, station.maxCapacity).toFixed(0) || 50}></Progress>
+                    <p className="">{makePercentage(station.batteryLevel, station.maxCapacity).toFixed(0) || 50}% (12 A/h)</p>
 
                   <p className="font-bold pt-4">Compatibility:</p>
-                  <p className="">{station.compatibility} </p>
+                  <p className=""> BYD, EC20 and Volvo Plugs</p>
 
-                  <p className="font-bold pt-4">Price per DVBrl/KWh:</p>
-                  <p className="">{station.averagePrice} </p>
+                  <p className="font-bold pt-4">Price per Kw:</p>
+                  <p className="">{station.meanPrice} Voltz</p>
 
-                    <button
+                    {buttonText && <button
                       onClick={() => {
                         if (setSelectedStation) {
                             setSelectedStation(station);
@@ -144,8 +140,8 @@ const Map = ({
                       }}
                       className="bg-primary p-4 px-6 rounded-full text-[#1e1e1e] font-bold hover:bg-green-400 transition"
                     >
-                      {buttonText || "Selecionar"}
-                    </button>
+                      {buttonText}
+                    </button>}
                   </div>
                 </Popup>
               </Marker>

@@ -1,10 +1,12 @@
 export default interface Station {
     id: number;
-    x: number;
-    y: number;
+    latitude: number;
+    longitude: number;
     address: string;
     maxVoltage: number;
     availablePlugs: string;
-    availableEnergyPercentage: number;
+    maxCapacity: number, 
+    batteryLevel: number,
+    meanPrice: number;
   }
   
