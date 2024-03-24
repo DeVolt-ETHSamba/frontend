@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import Map from "~~/components/Map";
+import dynamic from "next/dynamic";
+import { useLocation } from "~~/contexts/LocationContext";
 import { Bid } from "~~/components/Bid";
 
 interface Station {
@@ -88,6 +89,19 @@ interface Props {
 
 const SellFirstStep = ({ isActive, children, setSelectedStation, selectedStation }: Props) => {
 
+
+  const { location, updateLocation } = useLocation();
+
+
+  const Map = useMemo(() => dynamic(
+    () => import('~~/components/Map'),
+    { 
+      loading: () => <p>map is loading</p>,
+      ssr: false
+    }
+  ), [])
+
+
   const blur = isActive ? "" : "blur-[6px] pointer-events-none";
   const background = isActive ? "bg-black" : "bg-[#000]";
   const [mapHeight, setMapHeight] = useState("550px");
@@ -114,8 +128,8 @@ const SellFirstStep = ({ isActive, children, setSelectedStation, selectedStation
             roundedTopCorners={true}
             roundedBottomCorners={true}
             stations={stations}
-            center={[-23.5571341, -46.7043563]}
-            userLocation={[-23.5581341, -46.7043563]}
+            center={location}
+            userLocation={location}
             width={"95%"}
             height={mapHeight}
             setSelectedStation={setSelectedStation}
