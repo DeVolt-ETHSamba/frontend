@@ -15,8 +15,7 @@ contract DeployScript is ScaffoldETHDeploy {
             );
         }
         vm.startBroadcast(deployerPrivateKey);
-        bytes32 _salt = bytes32(abi.encode(15963));
-        Voltz voltz = new Voltz{salt: _salt}();
+        Voltz voltz = new Voltz();
         console.log(
             "Volt address:",
             address(voltz),
