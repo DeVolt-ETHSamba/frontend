@@ -3,81 +3,23 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useLocation } from "~~/contexts/LocationContext";
 import { Bid } from "~~/components/Bid";
+import Station from "~~/types/station";
+import queryAllStations from "~~/utils/queryAllStations";
+import findClosestStation from "~~/utils/calculateNearestStation";
+import makePercentage from "~~/utils/makePercentage";
 
-interface Station {
-  id: number;
-  x: number;
-  y: number;
-  address: string;
-  maxVoltage: number;
-  availablePlugs: string;
-  availableEnergyPercentage: number;
-}
-
-const stations: Station[] = [
+const mockStations: Station[] = [
   {
     id: 1,
-    x: -23.5571341,
-    y: -46.7043563,
+    latitude: -1,
+    longitude: -1,
     address: "Rua piracanjuba, 240",
     maxVoltage: 45,
     availablePlugs: "Tipo S2, BYD, BMW",
-    availableEnergyPercentage: 12,
-  },
-  {
-    id: 2,
-    x: -23.5561341,
-    y: -46.7030563,
-    address: "Rua piracanjuba, 242",
-    maxVoltage: 45,
-    availablePlugs: "Tipo S2, BYD, BMW",
-    availableEnergyPercentage: 30,
-  },
-  {
-    id: 3,
-    x: -23.5591341,
-    y: -46.7001563,
-    address: "Rua piracanjuba, 243",
-    maxVoltage: 45,
-    availablePlugs: "Tipo S2, BYD, BMW",
-    availableEnergyPercentage: 93,
-  },
-  {
-    id: 4,
-    x: -23.5553341,
-    y: -46.7091563,
-    address: "Rua piracanjuba, 232",
-    maxVoltage: 45,
-    availablePlugs: "Tipo S2, BYD, BMW",
-    availableEnergyPercentage: 51,
-  },
-  {
-    id: 5,
-    x: -22.979455,
-    y: -43.215230,
-    address: "Pier da Lagoa Rodrigo de Freitas",
-    maxVoltage: 45,
-    availablePlugs: "Tipo S2, BYD",
-    availableEnergyPercentage: 51,
-  },
-  {
-    id: 6,
-    x: -22.980095,
-    y: -43.216255,
-    address: "Av. Borges de Medeiros, 829 - Lagoa, Rio de Janeiro - RJ, 23430-042",
-    maxVoltage: 45,
-    availablePlugs: "Tipo S2, BYD",
-    availableEnergyPercentage: 51,
-  },
-  {
-    id: 7,
-    x: -22.978384,
-    y: -43.218378,
-    address: "Av. Borges de Medeiros, 997 - Lagoa, Rio de Janeiro - RJ, 22430-041",
-    maxVoltage: 45,
-    availablePlugs: "Tipo S2, BYD",
-    availableEnergyPercentage: 51,
-  },
+    meanPrice: 30,
+    batteryLevel: 50,
+    maxCapacity: 100,
+  }
 ];
 
 interface Props {
@@ -89,9 +31,17 @@ interface Props {
 
 const SellFirstStep = ({ isActive, children, setSelectedStation, selectedStation }: Props) => {
 
-
+  const [stations, setStations] = useState(mockStations);
   const { location, updateLocation } = useLocation();
 
+  useEffect(() => {
+    queryAllStations().then(stations => {
+      console.log(stations);
+
+      setStations(stations);
+
+    });
+  }, [location]);
 
   const Map = useMemo(() => dynamic(
     () => import('~~/components/Map'),
@@ -134,12 +84,14 @@ const SellFirstStep = ({ isActive, children, setSelectedStation, selectedStation
             height={mapHeight}
             setSelectedStation={setSelectedStation}
             hidden={!isActive}
+            buttonText="Sell energy here"
           />
         </div>
         <div className=" w-full -mt-12 z-0 py-12 rounded-lg">
           <div className="flex gap-x-5 w-full m-8 divide-x">
             <div className="w-[30%] text-lg ">
               <p className="text-3xl text-[#37e231] font-bold">Auction status</p>
+              <p>{selectedStation.address}</p>
               <div className="flex gap-2 items-center my-4">
                 <Image src="./wallet.svg" alt="ttt" width={40} height={40} />
                 <p className="font-bold">
@@ -149,7 +101,7 @@ const SellFirstStep = ({ isActive, children, setSelectedStation, selectedStation
               <div className="flex gap-2 items-center my-4">
                 <Image src="./capacity.svg" alt="ttt" width={40} height={40} />
                 <p className="font-bold">
-                  Energy amount offered: <span className="font-normal">{selectedStation.availableEnergyPercentage || "  ---"}</span>{" "}
+                  Energy amount offered: <span className="font-normal">{selectedStation.batteryLevel && makePercentage(selectedStation.batteryLevel, selectedStation.maxCapacity).toFixed(0) || "  ---"}</span>{" "}
                 </p>
               </div>
               <div className="flex gap-2 items-center my-4">

@@ -1,12 +1,4 @@
-interface Station {
-  id: number;
-  x: number;
-  y: number;
-  address: string;
-  maxVoltage: number;
-  availablePlugs: string;
-  availableEnergyPercentage: number;
-}
+import Station from "~~/types/station";
 
 interface Coords {
   x: number;
@@ -16,13 +8,18 @@ interface Coords {
 function calcularDistanciaSimplificada(ponto1: Coords, ponto2: Station) {
   const latDistPerDegree = 111320;
   const lonDistPerDegree = (40075000 * Math.cos((ponto1.x * Math.PI) / 180)) / 360;
-  const deltaLat = (ponto2.x - ponto1.x) * latDistPerDegree;
-  const deltaLon = (ponto2.y - ponto1.y) * lonDistPerDegree;
+  const deltaLat = (ponto2.latitude - ponto1.x) * latDistPerDegree;
+  const deltaLon = (ponto2.longitude - ponto1.y) * lonDistPerDegree;
 
   return Math.sqrt(deltaLat * deltaLat + deltaLon * deltaLon);
 }
 
 export default function findClosestStation(coords: Station[], yourCoords: Coords) {
+
+  console.log("received your coords as")
+  console.log(yourCoords)
+
+
   if (yourCoords.x == 0 || yourCoords.y == 0) {
     return { station: null, distance: 0 };
   }

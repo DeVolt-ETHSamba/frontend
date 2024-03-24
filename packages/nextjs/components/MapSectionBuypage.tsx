@@ -1,17 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Map from "~~/components/Map";
 import { useLocation } from "~~/contexts/LocationContext";
+import queryAllStations from '~~/utils/queryAllStations';
 
 interface mapSectionBuypageProps {
     roundedTopCorners: boolean;
     roundedBottomCorners: boolean;
     stations: any;
+    setStations: any;
     width: string;
     setSelectedStation: any;
   }
 
-export const MapSectionBuypage = ({roundedTopCorners, roundedBottomCorners, stations, width, setSelectedStation}: mapSectionBuypageProps) => {
+export const MapSectionBuypage = ({roundedTopCorners, roundedBottomCorners, stations, setStations, width, setSelectedStation}: mapSectionBuypageProps) => {
+
     const { location, updateLocation } = useLocation();
+
+    useEffect(() => {
+      queryAllStations().then(stations => {
+    
+        setStations(stations);
+  
+      });
+    }, [location]);
 
   return (
     <>
@@ -19,6 +30,7 @@ export const MapSectionBuypage = ({roundedTopCorners, roundedBottomCorners, stat
         <p className="text-xl font-medium pb-2 ml-8">Select the station you want to buy your power</p>
         <div className="md:col-span-5 md:row-span-1 mx-auto md:col-start-1 md:row-start-3 rounded-3xl mb-6">
             <Map
+            buttonText='Select'
             userLocation={location}
             roundedTopCorners={roundedTopCorners}
             roundedBottomCorners={roundedBottomCorners}

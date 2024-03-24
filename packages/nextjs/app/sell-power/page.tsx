@@ -68,7 +68,14 @@ const SellPower: NextPage = () => {
     setActiveStep(4);
   };
 
-  const finish = () => {};
+  const finish = () => {
+    console.log({
+      id: selectedStation.id,
+      price: selectedPrice,
+      amount: selectedAmount,
+      user: "0x00000000000000000000000000"
+    })
+  };
 
   return (
     <>
@@ -156,7 +163,7 @@ const SellPower: NextPage = () => {
             <p className=" text-center text-[#ccc] ">
               after the auction is finished, you have 24 hours to recharge the chosen station.
             </p>
-            <button className="bg-primary text-black font-semibold px-4 py-2 rounded-lg hover:scale-105 transition">
+            <button onClick={finish } className="bg-primary text-black font-semibold px-4 py-2 rounded-lg hover:scale-105 transition">
               Place Bid
             </button>
             <button
