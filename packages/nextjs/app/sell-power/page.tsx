@@ -1,21 +1,49 @@
 "use client";
 
-import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import SellFirstStep from "./SellFirstStep";
 import { useGeolocation } from "@uidotdev/usehooks";
+import { ArrowLeft } from "lucide-react";
 import type { NextPage } from "next";
-import { set } from "nprogress";
-import GetUserGeolocationDialog from "~~/components/GetUserGeolocationDialog";
-import Map from "~~/components/Map";
-import MapSectionHomepage from "~~/components/MapSectionHomepage";
 import { Step } from "~~/components/Step";
+import { Dialog, DialogClose, DialogContent, DialogTitle, DialogDescription, DialogTrigger } from "~~/components/ui/dialog";
+
+interface Station {
+  id: number;
+  x: number;
+  y: number;
+  address: string;
+  maxVoltage: number;
+  availablePlugs: string;
+  availableEnergyPercentage: number;
+}
+
 
 const SellPower: NextPage = () => {
-  
-    const [activeStep, setActiveStep] = useState(1);
-    const [value, setValue] = useState(0);
+
+  const [activeStep, setActiveStep] = useState(1);
+
+  const [selectedPrice, setSelectedPrice] = useState(0);
+  const [selectedAmount, setSelectedAmount] = useState(0);
+  const [selectedStation, setSelectedStation] = useState<Station>({
+    id: 0,
+    x: 0,
+    y: 0,
+    address: "",
+    maxVoltage: 0,
+    availablePlugs: "",
+    availableEnergyPercentage: 0,
+  });
+
+  useEffect(()=>{
+    if (selectedStation.id == 0) return;
+    window.scrollBy({
+      behavior: "smooth",
+      top: 450,
+    });
+  }, [selectedStation])
+
 
   const moveToStep1 = () => {
     window.scrollBy({
@@ -23,8 +51,8 @@ const SellPower: NextPage = () => {
       top: -550,
     });
     setActiveStep(1);
-  }
-  
+  };
+
   const moveToStep2 = () => {
     window.scrollBy({
       behavior: "smooth",
@@ -37,30 +65,38 @@ const SellPower: NextPage = () => {
     setActiveStep(3);
   };
 
+  const moveToStep4 = () => {
+    setActiveStep(4);
+  }
+
   const finish = () => {};
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(Number(event.target.value));
-  };
 
   return (
     <>
       <div className="flex flex-col mx-8 my-2">
-        <h1 className="text-neutral text-6xl mb-4">Sell your power</h1>
+        <h1 className="text-neutral text-5xl mb-4">Sell your power</h1>
 
-        <SellFirstStep isActive={activeStep == 1 ? true : false}>
+        <SellFirstStep selectedStation={selectedStation} setSelectedStation={setSelectedStation} isActive={activeStep == 1 ? true : false}>
           <button
             onClick={() => moveToStep2()}
-            className="bg-primary text-3xl px-4 py-2 mx-auto rounded-xl text-black font-semibold"
+            className="bg-[#1c1c1c] text-xl px-8 py-6 mx-auto rounded-full text-white hover:bg-primary hover:text-black transition"
           >
-            Continue
+            Continue with this station
           </button>
         </SellFirstStep>
 
         <div className="flex gap-x-7 mb-40 rounded-md mt-8">
           <Step step="2" phrase="Set your price" isActive={activeStep == 2 ? true : false}>
-            <input type="range" min={0} max={100} value={value} onChange={handleChange} className="range" />
+            <input
+              type="range"
+              min={0}
+              max={100}
+              value={selectedPrice}
+              onChange={e => setSelectedPrice(parseInt(e.target.value))}
+              className="range"
+            />
             <div className="flex flex-col justify-center items-center">
-              <p className="font-bold text-3xl text-[#1e1e1e]">{value}</p>
+              <p className="font-bold text-3xl text-[#1e1e1e]">{selectedPrice}</p>
               <p className="text-[#1e1e1e] text-md -m-3">DVBrl/KWh</p>
               <p className="text-[#1e1e1e] text-sm">
                 *Competitive pricing attracts buyers, fostering a dynamic and fair exchange.
@@ -68,7 +104,7 @@ const SellPower: NextPage = () => {
             </div>
             <div className="flex justify-between mt-2">
               <button className="rounded-full bg-[#1e1e1e] px-4 py-4" onClick={() => moveToStep1()}>
-                <ArrowLeft size={30}/>
+                <ArrowLeft size={30} />
               </button>
               <button className="rounded-full bg-[#1e1e1e] px-8 py-2" onClick={() => moveToStep3()}>
                 Next step
@@ -81,18 +117,38 @@ const SellPower: NextPage = () => {
             isActive={activeStep == 3 ? true : false}
           >
             <label className="input input-bordered flex items-center gap-2">
-              <input type="number" className="grow bg-[#1e1e1e]" placeholder="Type here" />
-              <p className="font-bold">kWh/day</p>
+              <input type="number" className="grow bg-[#1e1e1e]" value={selectedAmount} onChange={(e)=>setSelectedAmount(parseInt(e.target.value))} placeholder="Enter the desired amount" />
+              <p className="font-bold">kWh</p>
             </label>
             <div className="flex justify-between mt-28">
               <button className="rounded-full bg-[#1e1e1e] px-4 py-4" onClick={() => setActiveStep(2)}>
-                <ArrowLeft size={30}/>
+                <ArrowLeft size={30} />
               </button>
-              <button className="rounded-full bg-[#1e1e1e] px-8 py-2">Sell energy power</button>
+              <button onClick={() => moveToStep4()} className="rounded-full bg-[#1e1e1e] px-8 py-2">Sell energy power</button>
             </div>
           </Step>
         </div>
       </div>
+      <Dialog open={activeStep==4 ? true : false}>
+        <DialogContent className="bg-[#1a1a1a] border-none shadow-lg">
+            <DialogTitle className="text-3xl flex text-white pb-2 gap-3"> Review you bid:</DialogTitle>
+            <DialogDescription className="leading-[1px] text-center">
+              <p className="text-xl font-semibold">Selected Station:</p>
+              <p>{selectedStation.address}</p>
+              <p className="pt-6 text-xl font-semibold">Price for each Kw:</p>
+              <p>{selectedPrice} Voltz/Kw</p>
+              <p className="pt-6 text-xl font-semibold">Amount of Kw you are selling:</p>
+              <p>{selectedAmount} Kws</p>
+            </DialogDescription>
+              <p className=" text-center text-[#ccc] ">after the auction is finished, you have 24 hours to recharge the chosen station.</p>
+            <button className="bg-primary text-black font-semibold px-4 py-2 rounded-lg hover:scale-105 transition">
+              Place Bid
+            </button>
+            <button onClick={moveToStep1} className="bg-[#444] text-white px-4 py-2 rounded-lg hover:scale-105 transition">
+              Go back
+            </button>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
