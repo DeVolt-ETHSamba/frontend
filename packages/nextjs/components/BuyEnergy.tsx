@@ -4,9 +4,10 @@ interface buyEnergyProps {
     averagePrice: number;
     value: number;
     setValue: any;
+    children: React.ReactNode;
   }
 
-export const BuyEnergy = ({averagePrice, value, setValue}: buyEnergyProps) => {
+export const BuyEnergy = ({averagePrice, value, setValue, children}: buyEnergyProps) => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValue(Number(event.target.value));
@@ -24,9 +25,7 @@ export const BuyEnergy = ({averagePrice, value, setValue}: buyEnergyProps) => {
     </div>
     <div className="flex justify-between mt-2">
       <p className="font-bold text-xl">Total to be paid: {value * averagePrice}</p>
-      <button className="rounded-full bg-[#37e231] px-8 py-2 text-[#1e1e1e] font-bold">
-        Buy energy
-      </button>
+      {children}
     </div> 
   </div>   
   ); 

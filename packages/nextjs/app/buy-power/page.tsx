@@ -5,9 +5,14 @@ import type { NextPage } from "next";
 import { BuyEnergy } from "~~/components/BuyEnergy";
 import Map from "~~/components/Map";
 import { StationData } from "~~/components/StationData";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "~~/components/ui/dialog";
 import { LocationProvider } from "~~/contexts/LocationContext";
+import GetUserGeolocationDialog from "~~/components/GetUserGeolocationDialog";
+import { MapSectionBuypage } from "~~/components/MapSectionBuypage";
 
 const SellPower: NextPage = () => {
+
+
   const stations = [
     {
       id: 1,
@@ -118,7 +123,7 @@ const SellPower: NextPage = () => {
     availableEnergyPercentage: 0,
     compatibility: "",
     averagePrice: 0,
-    stationName: "",
+    stationName: ""
   });
   const [value, setValue] = useState(0);
   const [stationName, setStationName] = useState("");
@@ -126,6 +131,9 @@ const SellPower: NextPage = () => {
   const [compatibility, setCompatibility] = useState("");
   const [averagePrice, setAveragePrice] = useState(0);
   const [availableEnergyPercentage, setAvailableEnergyPercentage] = useState(0);
+  const [openPopUp, setOpenPopUp] = useState(false);
+
+  const [disableButton, setDisableButton] = useState("disabled bg-[#7c7c7c] pointer-events-none");
 
   useEffect(() => {
     if (selectedStation.id == 0) return;
@@ -133,27 +141,26 @@ const SellPower: NextPage = () => {
       behavior: "smooth",
       top: 450,
     });
-  }, [selectedStation]);
+
+    if(value > 0 && stationName !== "" && address !== "" && compatibility !== "" && averagePrice > 0 && availableEnergyPercentage > 0) {
+       setDisableButton("bg-[#37e231]");
+    }
+
+  }, [selectedStation, value, stationName, compatibility, averagePrice, availableEnergyPercentage, address])
 
   return (
-    <>
       <LocationProvider>
+        <GetUserGeolocationDialog />
         <div className="flex flex-col mx-8 my-2">
           <h1 className="text-neutral text-5xl my-8">Choose your charger point</h1>
           <div className="p-4 px-8 rounded-3xl bg-black">
-            <p className="text-3xl ml-8 pt-4 font-bold">Charger points:</p>
-            <p className="text-xl font-medium pb-2 ml-8">Select the station you want to buy your power</p>
-            <div className="md:col-span-5 md:row-span-1 mx-auto md:col-start-1 md:row-start-3 rounded-3xl mb-6">
-              <Map
-                roundedTopCorners={true}
-                roundedBottomCorners={true}
-                stations={stations}
-                center={[-23.5571341, -46.7043563]}
-                userLocation={[-23.5581341, -46.7043563]}
-                width={"95%"}
-                setSelectedStation={setSelectedStation}
-              />
-            </div>
+          < MapSectionBuypage
+            roundedTopCorners={true}
+            roundedBottomCorners={true}
+            stations={stations}
+            width={"95%"}
+            setSelectedStation={setSelectedStation}
+            />
             <div className="bg-[#010101] w-full -mt-12 z-0 ml-8 py-8 rounded-lg">
               <div className="flex gap-x-5 w-full my-4 mx-8 divide-x">
                 <div className="w-[30%]">
@@ -167,14 +174,49 @@ const SellPower: NextPage = () => {
                   />
                 </div>
                 <div className="w-[70%] pl-12">
-                  <BuyEnergy value={value} setValue={setValue} averagePrice={averagePrice} />
+                  <BuyEnergy
+                    value={value}
+                    setValue={setValue}
+                    averagePrice={averagePrice}
+                  >
+                    <button
+                      onClick={() => setOpenPopUp(true)} 
+                      className={`rounded-full px-8 py-2 text-[#1e1e1e] font-bold hover:scale-95 duration-100 ${disableButton}`}>
+                      Buy energy
+                    </button>
+                  </BuyEnergy>
                 </div>
               </div>
             </div>
+            <Dialog open={openPopUp} >
+              <DialogContent className="bg-[#1a1a1a] border-none shadow-lg">
+                <DialogTitle className="text-3xl flex text-white pb-2 gap-3"> Review you purchase:</DialogTitle>
+                <DialogDescription className="leading-[1px] text-center">
+                  <p className="text-xl font-semibold">Selected Station:</p>
+                  <p>{stationName}</p>
+                  <p className="text-xl font-semibold">Address:</p>
+                  <p>{address}</p>
+                  <p className="pt-6 text-xl font-semibold">Price for each Kw:</p>
+                  <p>{averagePrice} Voltz/Kw</p>
+                  <p className="pt-6 text-xl font-semibold">Amount of Kw you are buying:</p>
+                  <p>{value} Kws</p>
+                  <p className="pt-6 text-xl font-semibold">Total to be paid:</p>
+                  <p>{value * averagePrice} Kws</p>
+                </DialogDescription>
+                <button className="bg-primary text-black font-semibold px-4 py-2 rounded-lg hover:scale-105 transition">
+                  Place Bid
+                </button>
+                <button
+                  onClick={() => setOpenPopUp(false)}
+                  className="bg-[#444] text-white px-4 py-2 rounded-lg hover:scale-105 transition"
+                >
+                  Go back
+                </button>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </LocationProvider>
-    </>
   );
 };
 

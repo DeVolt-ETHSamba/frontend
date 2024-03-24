@@ -118,7 +118,7 @@ const Map = ({
                     <p className="pb-4">{station.stationName} </p>
                     <p>{station.address}</p>
                     <a href={`https://www.google.com/maps/search/${station.x},+${station.y}?entry=tts`}>
-                      ver no Google Maps
+                      Ver no Google Maps
                     </a>
                     <p className="font-bold pt-4 ">
                       Voltagem máxima: <span className="font-normal">{station.maxVoltage}V</span>
@@ -142,7 +142,7 @@ const Map = ({
                             setSelectedStation(station);
                         }
                       }}
-                      className="bg-primary p-4 px-6 rounded font-bold hover:bg-green-400 transition"
+                      className="bg-primary p-4 px-6 rounded-full text-[#1e1e1e] font-bold hover:bg-green-400 transition"
                     >
                       {buttonText || "Selecionar"}
                     </button>
