@@ -1,15 +1,18 @@
 "use client";
+import { encodeFunctionData, parseAbi } from "viem";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import SellFirstStep from "./SellFirstStep";
-import { useGeolocation } from "@uidotdev/usehooks";
 import { ArrowLeft } from "lucide-react";
 import type { NextPage } from "next";
+import { useAccount } from "wagmi";
 import GetUserGeolocationDialog from "~~/components/GetUserGeolocationDialog";
 import { Step } from "~~/components/Step";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "~~/components/ui/dialog";
 import { LocationProvider } from "~~/contexts/LocationContext";
+import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
+import { makeCartesiBytecode } from "~~/utils/blockchain";
 
 interface Station {
   id: number;
@@ -34,6 +37,34 @@ const SellPower: NextPage = () => {
     maxVoltage: 0,
     availablePlugs: "",
     availableEnergyPercentage: 0,
+  });
+
+  const {address} = useAccount()
+
+  const abi = parseAbi([
+    "function withdraw(address)",
+    "function placeBid(string,address,string,string)", //id da estação, address do sender, batteryAmount, price
+    "function rechargeBattery(string,address,string)",
+    "function batteryReport(string,string,string,string,string)",
+  ]);
+
+  const bytecode = encodeFunctionData({
+    abi: abi,
+    functionName: 'placeBid',
+    args: [selectedStation.id.toString(), address||"0x455E5AA18469bC6ccEF49594645666C587A3a71B", selectedAmount.toString(), selectedPrice.toString()]
+  })
+
+  const { writeAsync, isLoading, isMining } = useScaffoldContractWrite({
+    contractName: "InputBox",
+    functionName: "addInput",
+    args: [
+      "0xa5cc3c03994DB5b0d9A5eEdD10CabaB0813678AC",
+      bytecode,
+    ], //id da estação, address do sender, batteryAmount, price)],
+    blockConfirmations: 1,
+    onBlockConfirmation: txnReceipt => {
+      console.log("Transaction blockHash", txnReceipt.blockHash);
+    },
   });
 
   useEffect(() => {
@@ -73,8 +104,10 @@ const SellPower: NextPage = () => {
       id: selectedStation.id,
       price: selectedPrice,
       amount: selectedAmount,
-      user: "0x00000000000000000000000000"
-    })
+      user: address,
+    });
+    writeAsync()
+    
   };
 
   return (
@@ -163,7 +196,10 @@ const SellPower: NextPage = () => {
             <p className=" text-center text-[#ccc] ">
               after the auction is finished, you have 24 hours to recharge the chosen station.
             </p>
-            <button onClick={finish } className="bg-primary text-black font-semibold px-4 py-2 rounded-lg hover:scale-105 transition">
+            <button
+              onClick={finish}
+              className="bg-primary text-black font-semibold px-4 py-2 rounded-lg hover:scale-105 transition"
+            >
               Place Bid
             </button>
             <button

@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import type { NextPage } from "next";
+import { encodeFunctionData, parseAbi } from "viem";
+import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { BuyEnergy } from "~~/components/BuyEnergy";
 import GetUserGeolocationDialog from "~~/components/GetUserGeolocationDialog";
 import Map from "~~/components/Map";
@@ -12,8 +14,34 @@ import { LocationProvider } from "~~/contexts/LocationContext";
 import Station from "~~/types/station";
 
 const BuyPower: NextPage = () => {
-  const mockStations:Station[] = [];
+  const mockStations: Station[] = [];
+  const [hallo, setHallo] = useState(0)
 
+  const abi = parseAbi([
+    "function withdraw(address)",
+    "function placeBid(string,address,string,string)", //id da estação, address do sender, batteryAmount, price
+    "function rechargeBattery(string,address,string)",
+    "function batteryReport(string,string,string,string,string)",
+  ]);
+
+  const bytecode = encodeFunctionData({
+    abi: abi,
+    functionName: 'placeBid',
+    args: ['id', '', '10', '10']
+  })
+
+  const { writeAsync, isLoading, isMining } = useScaffoldContractWrite({
+    contractName: "InputBox",
+    functionName: "addInput",
+    args: ["0xa5cc3c03994DB5b0d9A5eEdD10CabaB0813678AC", bytecode],
+    blockConfirmations: 1,
+    onBlockConfirmation: txnReceipt => {
+      console.log("Transaction blockHash", txnReceipt.blockHash);
+    },
+  });
+
+
+  
 
   const [selectedStation, setSelectedStation] = useState<Station>({
     id: 0,
@@ -38,37 +66,24 @@ const BuyPower: NextPage = () => {
 
   const [metaverseDialog, setMetaverseDialog] = useState(true);
 
-  useEffect(() => {
-    if (selectedStation.id == 0) return;
-    window.scrollBy({
-      behavior: "smooth",
-      top: 450,
-    });
-
-    if (
-      value > 0 &&
-      address !== "" &&
-      compatibility !== "" &&
-      averagePrice > 0 &&
-      availableEnergyPercentage > 0
-    ) {
-      setDisableButton("bg-[#37e231]");
-    }
-  }, [selectedStation, value,  compatibility, averagePrice, availableEnergyPercentage, address]);
-
-
   return (
     <LocationProvider>
       <Dialog open={metaverseDialog}>
         <DialogContent className="bg-[#1a1a1a] border-none shadow-lg">
           <DialogTitle className="text-3xl flex text-white pb-2 gap-3"> Warning: Metaverse ahead!</DialogTitle>
           <p className="font-semibold">
-            In the real world, drivers shouldn't need to buy their gas (or energy) on a website before filling their tank up. This also apply to DeVolt, obviously.
+            In the real world, drivers shouldn't need to buy their gas (or energy) on a website before filling their
+            tank up. This also apply to DeVolt, obviously.
           </p>
-          <p className="">            
-             Keep in mind that this page only simulates what a driver would do in a charge station. In the real scenario, the driver would just pull up to the station, plug their car in, connect his/her wallet and choose the amount of energy to buy.
+          <p className="">
+            Keep in mind that this page only simulates what a driver would do in a charge station. In the real scenario,
+            the driver would just pull up to the station, plug their car in, connect his/her wallet and choose the
+            amount of energy to buy.
           </p>
-          <button onClick={()=>setMetaverseDialog(false)} className="bg-primary text-black font-semibold px-4 py-2 rounded-lg hover:scale-105 transition">
+          <button
+            onClick={() => setMetaverseDialog(false)}
+            className="bg-primary text-black font-semibold px-4 py-2 rounded-lg hover:scale-105 transition"
+          >
             Got it!
           </button>
         </DialogContent>
@@ -88,9 +103,7 @@ const BuyPower: NextPage = () => {
           <div className="bg-[#010101] w-full -mt-12 z-0 ml-8 py-8 rounded-lg">
             <div className="flex gap-x-5 w-full my-4 mx-8 divide-x">
               <div className="w-[30%]">
-                <StationData
-                  selectedStation={selectedStation}
-                />
+                <StationData selectedStation={selectedStation} />
               </div>
               <div className="w-[70%] pl-12">
                 <BuyEnergy value={value} setValue={setValue} averagePrice={averagePrice}>
@@ -122,7 +135,9 @@ const BuyPower: NextPage = () => {
                 Place Bid
               </button>
               <button
-                onClick={() => setOpenPopUp(false)}
+                onClick={() => {
+                  setOpenPopUp(false)
+                 } }
                 className="bg-[#444] text-white px-4 py-2 rounded-lg hover:scale-105 transition"
               >
                 Go back
@@ -130,6 +145,14 @@ const BuyPower: NextPage = () => {
             </DialogContent>
           </Dialog>
         </div>
+        <button
+                onClick={() => {
+                  writeAsync()
+                 } }
+                className="bg-[#444] text-white px-4 py-2 rounded-lg hover:scale-105 transition"
+              >
+                Go back
+              </button>
       </div>
     </LocationProvider>
   );

@@ -13,7 +13,7 @@ const mockStations: Station[] = [
   {
     latitude: -1,
     longitude: -1,
-    address: "Rua piracanjuba, 240",
+    address: "Mocked address!!",
     maxVoltage: 45,
     availablePlugs: "Tipo S2, BYD, BMW",
     id: 1,
@@ -43,6 +43,14 @@ const MapSectionHomepage = () => {
     })
     .catch(err => {
       toast.error("Error fetching stations");
+      const { station: a, distance: b } = findClosestStation(mockStations, {
+        x: location[0] || 0,
+        y: location[1] || 0,
+      });
+
+      setClosestStation(a);
+      setClosestStationDistance(b);
+
     }
     )
   }, [location]);
