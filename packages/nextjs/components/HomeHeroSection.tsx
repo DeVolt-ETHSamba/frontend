@@ -56,16 +56,17 @@ const HomeHeroSection = () => {
 
       <div className="md:col-span-2 md:row-span-1 md:col-start-4 md:row-start-2">
         <div className="bg-green-500 text-white p-4 rounded-3xl shadow-lg flex flex-col items-center justify-center w-full h-full bg-gradient-to-tr from-black to-[#14591F]">
-          <p className="text-5xl font-bold mb-8">Sell and Buy DeVolt Energy</p>
+          <p className="text-3xl font-bold mb-8">Start using DeVolt right now</p>
           <div className="flex space-x-4">
-            <Link href="/buy-energy">
-              <button className="font-medium text-xl bg-[#161616] rounded-lg text-white px-8 py-3 transition  border-gray-100  border-2 hover:bg-[#37e231] hover:border-primary">
+            <Link href="/buy-power">
+              <button className="font-semibold text-xl bg-primary  rounded-lg text-black px-8 py-3 transition  hover:bg-[#37e231] hover:border-primary">
                 Buy Energy
               </button>
             </Link>
-            <Link href="/buy-power">
-              <button className="font-medium text-xl bg-[#161616] rounded-lg text-white px-8 py-3 transition  border-gray-100  border-2 hover:bg-[#37e231] hover:border-primary">
-                Buy Power
+            <p className="text-lg font-semibold">or</p>
+            <Link href="/sell-power">
+              <button className="font-medium text-xl bg-[#333] rounded-lg text-[#c9c9c9] px-8 py-3 transition   hover:bg-[#1a1a1a] hover:border-primary">
+                Sell your exceeding energy
               </button>
             </Link>
           </div>
