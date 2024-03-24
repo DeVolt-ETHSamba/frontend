@@ -1,9 +1,11 @@
 import { useMemo } from "react";
+import dynamic from "next/dynamic";
 import { Progress } from "./ui/progress";
 import { useLocation } from "~~/contexts/LocationContext";
-import dynamic from "next/dynamic";
+import Station from "~~/types/station";
+import findClosestStation from "~~/utils/calculateNearestStation";
 
-const stations = [
+const stations: Station[] = [
   {
     x: -23.5571341,
     y: -46.7043563,
@@ -11,6 +13,7 @@ const stations = [
     maxVoltage: 45,
     availablePlugs: "Tipo S2, BYD, BMW",
     availableEnergyPercentage: 12,
+    id: 1,
   },
   {
     x: -23.5561341,
@@ -19,6 +22,7 @@ const stations = [
     maxVoltage: 45,
     availablePlugs: "Tipo S2, BYD, BMW",
     availableEnergyPercentage: 30,
+    id: 2,
   },
   {
     x: -23.5591341,
@@ -27,6 +31,7 @@ const stations = [
     maxVoltage: 45,
     availablePlugs: "Tipo S2, BYD, BMW",
     availableEnergyPercentage: 93,
+    id: 3,
   },
   {
     x: -23.5553341,
@@ -35,14 +40,16 @@ const stations = [
     maxVoltage: 45,
     availablePlugs: "Tipo S2, BYD, BMW",
     availableEnergyPercentage: 51,
+    id: 4,
   },
   {
     x: -22.979455,
-    y: -43.215230,
+    y: -43.21523,
     address: "Pier da Lagoa Rodrigo de Freitas",
     maxVoltage: 45,
     availablePlugs: "Tipo S2, BYD",
     availableEnergyPercentage: 51,
+    id: 5,
   },
   {
     x: -22.980095,
@@ -51,6 +58,7 @@ const stations = [
     maxVoltage: 45,
     availablePlugs: "Tipo S2, BYD",
     availableEnergyPercentage: 51,
+    id: 6,
   },
   {
     x: -22.978384,
@@ -59,24 +67,26 @@ const stations = [
     maxVoltage: 45,
     availablePlugs: "Tipo S2, BYD",
     availableEnergyPercentage: 51,
+    id: 7,
   },
-
 ];
 
-
-
 const MapSectionHomepage = () => {
-
-  const Map = useMemo(() => dynamic(
-    () => import('~~/components/Map'),
-    { 
-      loading: () => <p>map is loading</p>,
-      ssr: false
-    }
-  ), [])
+  const Map = useMemo(
+    () =>
+      dynamic(() => import("~~/components/Map"), {
+        loading: () => <p>map is loading</p>,
+        ssr: false,
+      }),
+    [],
+  );
 
   const { location, updateLocation } = useLocation();
 
+  const { station: closestStation, distance: closestStationDistance } = findClosestStation(stations, {
+    x: location[0] || 0,
+    y: location[1] || 0,
+  });
 
   return (
     <div className="w-full">
@@ -87,7 +97,7 @@ const MapSectionHomepage = () => {
         <h1 className="text-5xl text-white">Charging points near you:</h1>
         <div className="leading-[0]">
           <p className="text-2xl font-bold">
-            Piracanjuba st., 240 <span className="font-normal text-xl">2.4km</span>
+            {closestStation?.address || "---"} <span className="font-normal text-xl">{closestStationDistance}Km</span>
           </p>
           <p className="text-lg font-semibold">Energy available:</p>
           <Progress value={21} className="bg-gray-100 " />
