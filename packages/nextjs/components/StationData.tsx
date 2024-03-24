@@ -23,7 +23,7 @@ export const StationData = ({ selectedStation, setStationName, setAddress, setCo
 
     return (
         <>
-            <p className="text-3xl text-[#37e231] font-bold">Estation {selectedStation["stationName"] || "---"}</p>
+            <p className="text-3xl text-[#37e231] font-bold">Station {selectedStation["stationName"] || "---"}</p>
             <div className="flex gap-2 items-center my-4">
                 <Image src="./pin.svg" alt="ttt" width={40} height={40} />
                 <p className="font-bold">Address</p><span>{selectedStation["address"] || "---"}</span>

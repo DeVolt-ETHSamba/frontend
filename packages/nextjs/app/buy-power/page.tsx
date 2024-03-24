@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { NextPage } from "next";
 import Map from "~~/components/Map";
 import { BuyEnergy } from "~~/components/BuyEnergy";
@@ -58,6 +58,42 @@ const SellPower: NextPage = () => {
       averagePrice: 6.50,
       stationName: "GGHH"
     },
+    {
+      id: 5,
+      x: -22.979455,
+      y: -43.215230,
+      address: "Pier da Lagoa Rodrigo de Freitas",
+      maxVoltage: 45,
+      availablePlugs: "Tipo S2, BYD",
+      availableEnergyPercentage: 51,
+      compatibility: "AC Type 2",
+      averagePrice: 1.20,
+      stationName: "IIJJ"
+    },
+    {
+      id: 6,
+      x: -22.980095,
+      y: -43.216255,
+      address: "Av. Borges de Medeiros, 829 - Lagoa, Rio de Janeiro - RJ, 23430-042",
+      maxVoltage: 45,
+      availablePlugs: "Tipo S2, BYD",
+      availableEnergyPercentage: 51,
+      compatibility: "CHAdeMO, AC Type 2",
+      averagePrice: 1.30,
+      stationName: "KKLL"
+    },
+    {
+      id: 7,
+      x: -22.978384,
+      y: -43.218378,
+      address: "Av. Borges de Medeiros, 997 - Lagoa, Rio de Janeiro - RJ, 22430-041",
+      maxVoltage: 45,
+      availablePlugs: "Tipo S2, BYD",
+      availableEnergyPercentage: 51,
+      compatibility: "DC CCS2, CHAdeMO",
+      averagePrice: 1.22,
+      stationName: "MMNN"
+    },
   ];
 
   interface Station {
@@ -93,6 +129,14 @@ const SellPower: NextPage = () => {
   const [averagePrice, setAveragePrice] = useState(0);
   const [availableEnergyPercentage, setAvailableEnergyPercentage] = useState(0);
 
+  useEffect(()=>{
+    if (selectedStation.id == 0) return;
+    window.scrollBy({
+      behavior: "smooth",
+      top: 450,
+    });
+  }, [selectedStation])
+
   return (
     <>
       <div className="flex flex-col mx-8 my-2">
@@ -127,6 +171,7 @@ const SellPower: NextPage = () => {
                   <BuyEnergy
                   value = {value}
                   setValue = {setValue}
+                  averagePrice = {averagePrice}
                   />       
               </div>
             </div>

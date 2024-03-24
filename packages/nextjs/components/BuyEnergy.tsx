@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
 interface buyEnergyProps {
+    averagePrice: number;
     value: number;
     setValue: any;
   }
 
-export const BuyEnergy = ({value, setValue}: buyEnergyProps) => {
+export const BuyEnergy = ({averagePrice, value, setValue}: buyEnergyProps) => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValue(Number(event.target.value));
@@ -22,7 +23,7 @@ export const BuyEnergy = ({value, setValue}: buyEnergyProps) => {
       <p className="text-sm -m-3 px-2">DVBrl/KWh</p>
     </div>
     <div className="flex justify-between mt-2">
-      <p className="font-bold text-xl">Total to be paid: {value * 2}</p>
+      <p className="font-bold text-xl">Total to be paid: {value * averagePrice}</p>
       <button className="rounded-full bg-[#37e231] px-8 py-2 text-[#1e1e1e] font-bold">
         Buy energy
       </button>

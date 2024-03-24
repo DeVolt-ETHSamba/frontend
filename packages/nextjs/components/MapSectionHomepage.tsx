@@ -36,7 +36,34 @@ const stations = [
     availablePlugs: "Tipo S2, BYD, BMW",
     availableEnergyPercentage: 51,
   },
+  {
+    x: -22.979455,
+    y: -43.215230,
+    address: "Pier da Lagoa Rodrigo de Freitas",
+    maxVoltage: 45,
+    availablePlugs: "Tipo S2, BYD",
+    availableEnergyPercentage: 51,
+  },
+  {
+    x: -22.980095,
+    y: -43.216255,
+    address: "Av. Borges de Medeiros, 829 - Lagoa, Rio de Janeiro - RJ, 23430-042",
+    maxVoltage: 45,
+    availablePlugs: "Tipo S2, BYD",
+    availableEnergyPercentage: 51,
+  },
+  {
+    x: -22.978384,
+    y: -43.218378,
+    address: "Av. Borges de Medeiros, 997 - Lagoa, Rio de Janeiro - RJ, 22430-041",
+    maxVoltage: 45,
+    availablePlugs: "Tipo S2, BYD",
+    availableEnergyPercentage: 51,
+  },
+
 ];
+
+
 
 const MapSectionHomepage = () => {
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { title } from "process";
 import Map from "~~/components/Map";
+import { Bid } from "~~/components/Bid";
 
 interface Station {
   id: number;
@@ -48,6 +48,33 @@ const stations: Station[] = [
     address: "Rua piracanjuba, 232",
     maxVoltage: 45,
     availablePlugs: "Tipo S2, BYD, BMW",
+    availableEnergyPercentage: 51,
+  },
+  {
+    id: 5,
+    x: -22.979455,
+    y: -43.215230,
+    address: "Pier da Lagoa Rodrigo de Freitas",
+    maxVoltage: 45,
+    availablePlugs: "Tipo S2, BYD",
+    availableEnergyPercentage: 51,
+  },
+  {
+    id: 6,
+    x: -22.980095,
+    y: -43.216255,
+    address: "Av. Borges de Medeiros, 829 - Lagoa, Rio de Janeiro - RJ, 23430-042",
+    maxVoltage: 45,
+    availablePlugs: "Tipo S2, BYD",
+    availableEnergyPercentage: 51,
+  },
+  {
+    id: 7,
+    x: -22.978384,
+    y: -43.218378,
+    address: "Av. Borges de Medeiros, 997 - Lagoa, Rio de Janeiro - RJ, 22430-041",
+    maxVoltage: 45,
+    availablePlugs: "Tipo S2, BYD",
     availableEnergyPercentage: 51,
   },
 ];
@@ -121,10 +148,10 @@ const SellFirstStep = ({ isActive, children, setSelectedStation, selectedStation
             <div className="w-[70%] px-8">
               <p className="text-3xl text-[#37e231] font-bold backdrop-blur-lg">Last bids</p>
               <div className="grid grid-cols-4 gap-3 w-[95%]">
-                <div className="bg-[#333] h-32 rounded-lg"></div>
-                <div className="bg-[#333] h-32 rounded-lg"></div>
-                <div className="bg-[#333] h-32 rounded-lg"></div>
-                <div className="bg-[#333] h-32 rounded-lg"></div>
+                <Bid price={0.5} wallet="0x000000000000000000" quantity={10} />
+                <Bid price={0.5} wallet="0x000000000000000000" quantity={10} />
+                <Bid price={0.5} wallet="0x000000000000000000" quantity={10} />
+                <Bid price={0.5} wallet="0x000000000000000000" quantity={10} />
               </div>
             </div>
           </div>
