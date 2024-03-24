@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "../contracts/YourContract.sol";
+import "../contracts/Voltz.sol";
 import "./DeployHelpers.s.sol";
 
 contract DeployScript is ScaffoldETHDeploy {
@@ -15,12 +15,13 @@ contract DeployScript is ScaffoldETHDeploy {
             );
         }
         vm.startBroadcast(deployerPrivateKey);
-        YourContract yourContract =
-            new YourContract(vm.addr(deployerPrivateKey));
-        console.logString(
-            string.concat(
-                "YourContract deployed at: ", vm.toString(address(yourContract))
-            )
+        bytes32 _salt = bytes32(abi.encode(15963));
+        Voltz voltz = new Voltz{salt: _salt}();
+        console.log(
+            "Volt address:",
+            address(voltz),
+            "at network:",
+            block.chainid
         );
         vm.stopBroadcast();
 
