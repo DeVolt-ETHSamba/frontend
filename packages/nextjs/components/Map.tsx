@@ -1,5 +1,5 @@
 // src/components/Map.tsx
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import L from "leaflet";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
@@ -48,10 +48,10 @@ interface mapProps {
   roundedTopCorners: boolean;
   roundedBottomCorners: boolean;
   setSelectedStation?: (station: any) => void;
+  hidden?: boolean;
 }
 
 const Map = ({
-
   stations,
   width,
   height,
@@ -61,9 +61,9 @@ const Map = ({
   roundedTopCorners,
   roundedBottomCorners,
   setSelectedStation,
-
+  hidden,
 }: mapProps) => {
-  let ContainerStyle = {
+  const [containerStyle, setContainerStyle] = useState<MapContainerProps["style"]>({
     width: width || "100%",
     height: height || "550px",
     borderTopLeftRadius: roundedTopCorners ? "20px" : "0",
@@ -71,67 +71,78 @@ const Map = ({
     borderBottomLeftRadius: roundedBottomCorners ? "20px" : "0",
     borderBottomRightRadius: roundedBottomCorners ? "20px" : "0",
     margin: "auto",
-  };
+  });
+
+  useEffect(() => {
+    setContainerStyle({
+      width: width || "100%",
+      height: height || "550px",
+      borderTopLeftRadius: roundedTopCorners ? "20px" : "0",
+      borderTopRightRadius: roundedTopCorners ? "20px" : "0",
+      borderBottomLeftRadius: roundedBottomCorners ? "20px" : "0",
+      borderBottomRightRadius: roundedBottomCorners ? "20px" : "0",
+      margin: "auto",
+    });
+  }, [width, height]);
 
   return (
     <>
-      <style>
-        {`
+        <style>
+          {`
         .leaflet-popup-content-wrapper, .leaflet-popup-tip {
           background-color: #222;
           border-radius: 10px;
           text-color: white;
         }
         `}
-      </style>
-      <MapContainer center={center} zoom={1} scrollWheelZoom={true} style={ContainerStyle}>
-        <MapUpdater mapCenter={center} />
+        </style>
+        <MapContainer center={center} zoom={1} scrollWheelZoom={true} style={containerStyle}>
+          <MapUpdater mapCenter={center} />
 
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker icon={iAmHereIcon} position={userLocation}>
-          <Popup>Você está aqui!</Popup>
-        </Marker>
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker icon={iAmHereIcon} position={userLocation}>
+            <Popup>Você está aqui!</Popup>
+          </Marker>
 
-        {/* map the stations prop */}
+          {/* map the stations prop */}
 
-        {stations.map((station: any, index: number) => {
-          return (
-            <Marker key={station.id} position={[station.x, station.y]} icon={stationIcon}>
-              <Popup>
-                <div className="leading-[1px] text-white">
-                  <p>{station.address}</p>
-                  <a href={`https://www.google.com/maps/search/${station.x},+${station.y}?entry=tts`}>
-                    ver no Google Maps
-                  </a>
-                  <p className="font-bold pt-4 ">
-                    Voltagem máxima: <span className="font-normal">{station.maxVoltage}V</span>
-                  </p>
-                  <p className="font-bold pb-4">
-                    Plugues disponíveis: <span className="font-normal">{station.availablePlugs}</span>
-                  </p>
-                  <p className="font-bold ">Carga disponível:</p>
-                  <Progress className="bg-slate-300" value={station.availableEnergyPercentage}></Progress>
-                  <p className="">{station.availableEnergyPercentage}% (12 A/h)</p>
-                  <button
-                    onClick={() => {
-                      if (setSelectedStation) {
-                      setSelectedStation(station)
-                      }
-                    }
-                    }
-                    className="bg-primary p-4 px-6 rounded font-bold hover:bg-green-400 transition"
-                  >
-                    {buttonText || "Selecionar"}
-                  </button>
-                </div>
-              </Popup>
-            </Marker>
-          );
-        })}
-      </MapContainer>
+          {stations.map((station: any, index: number) => {
+            return (
+              <Marker key={station.id} position={[station.x, station.y]} icon={stationIcon}>
+                <Popup>
+                  <div className="leading-[1px] text-white">
+                    <p>{station.address}</p>
+                    <a href={`https://www.google.com/maps/search/${station.x},+${station.y}?entry=tts`}>
+                      ver no Google Maps
+                    </a>
+                    <p className="font-bold pt-4 ">
+                      Voltagem máxima: <span className="font-normal">{station.maxVoltage}V</span>
+                    </p>
+                    <p className="font-bold pb-4">
+                      Plugues disponíveis: <span className="font-normal">{station.availablePlugs}</span>
+                    </p>
+                    <p className="font-bold ">Carga disponível:</p>
+                    <Progress className="bg-slate-300" value={station.availableEnergyPercentage}></Progress>
+                    <p className="">{station.availableEnergyPercentage}% (12 A/h)</p>
+                    <button
+                      onClick={() => {
+                        if (setSelectedStation) {
+                          setSelectedStation(station);
+                        }
+                      }}
+                      className="bg-primary p-4 px-6 rounded font-bold hover:bg-green-400 transition"
+                    >
+                      {buttonText || "Selecionar"}
+                    </button>
+                  </div>
+                </Popup>
+              </Marker>
+            );
+          })}
+        </MapContainer>
     </>
   );
 };
