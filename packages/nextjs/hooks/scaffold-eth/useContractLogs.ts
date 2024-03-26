@@ -12,6 +12,7 @@ export const useContractLogs = (address: Address) => {
         const existingLogs = await client.getLogs({
           address: address,
           fromBlock: 0n,
+          //@ts-ignore
           toBlock: "latest",
         });
         setLogs(existingLogs);
@@ -26,6 +27,7 @@ export const useContractLogs = (address: Address) => {
         const newLogs = await client.getLogs({
           address: address,
           fromBlock: prevBlockNumber,
+          //@ts-ignore
           toBlock: "latest",
         });
         setLogs(prevLogs => [...prevLogs, ...newLogs]);
