@@ -59,6 +59,7 @@ const BuyPower: NextPage = () => {
   ]);
 
   const bytecode = encodeFunctionData({
+    
     abi: abi,
     functionName: 'placeBid',
     args: ['id', '0x0000000000000000000000000000000000000000', '10', '10']
