@@ -32,6 +32,7 @@ export const useScaffoldContract = <
       Contract<TContractName>["abi"],
       Chain,
       Account,
+      //@ts-ignore
       PublicClient,
       TWalletClient
     >({

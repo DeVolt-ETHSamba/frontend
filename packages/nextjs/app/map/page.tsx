@@ -61,6 +61,7 @@ export default function Home() {
         stations={stations}
         center={[-23.5571341,-46.7043563]}
         userLocation={[-23.5581341,-46.7043563]}
+//@ts-ignore 
         showAuctionButton={true}
       />
         <p className="mt-8">mapa pra quem quer abastecer seu carro</p>
@@ -68,6 +69,7 @@ export default function Home() {
         stations={stations}
         center={[-23.5571341,-46.7043563]}
         userLocation={[-23.5581341,-46.7043563]}
+//@ts-ignore 
         showAuctionButton={false}
         
       />

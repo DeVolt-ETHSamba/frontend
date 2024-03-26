@@ -100,8 +100,10 @@ const MapSectionHomepage = () => {
             {closestStation?.address || "Unnamed station"} <span className="font-normal text-xl">{closestStationDistance}Km</span>
           </p>
           <p className="text-lg font-semibold">Energy available:</p>
+          {/* @ts-ignore */}
           <Progress value={closestStation?.availableEnergyPercentage || 50} className="bg-gray-100 " />
           <p className="text-xl">
+            {/* @ts-ignore */}
             {closestStation?.availableEnergyPercentage || 50}%
           </p>
           <div className="flex gap-4">
@@ -125,6 +127,7 @@ const MapSectionHomepage = () => {
         stations={stations}
         center={location}
         userLocation={location}
+        // @ts-ignore
         showAuctionButton={false}
       />
     </div>

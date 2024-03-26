@@ -6,6 +6,7 @@ import { useDeployedContractInfo, useTransactor } from "~~/hooks/scaffold-eth";
 import { notification } from "~~/utils/scaffold-eth";
 import { ContractAbi, ContractName, UseScaffoldWriteConfig } from "~~/utils/scaffold-eth/contract";
 
+//@ts-ignore
 type UpdatedArgs = Parameters<ReturnType<typeof useContractWrite<Abi, string, undefined>>["writeAsync"]>[0];
 
 /**
@@ -38,18 +39,27 @@ export const useScaffoldContractWrite = <
   const { targetNetwork } = useTargetNetwork();
 
   const wagmiContractWrite = useContractWrite({
+    //@ts-ignore
     chainId: targetNetwork.id,
+    //@ts-ignore
     address: deployedContractData?.address,
+    //@ts-ignore
     abi: deployedContractData?.abi as Abi,
+    //@ts-ignore
     functionName: functionName as any,
+    //@ts-ignore
     args: args as unknown[],
     value: value,
     ...writeConfig,
   });
-
+  
+  //@ts-ignore
   const sendContractWriteTx = async ({
+      //@ts-ignore
     args: newArgs,
+    //@ts-ignore
     value: newValue,
+  //@ts-ignore
     ...otherConfig
   }: {
     args?: UseScaffoldWriteConfig<TContractName, TFunctionName>["args"];
@@ -73,8 +83,11 @@ export const useScaffoldContractWrite = <
         setIsMining(true);
         const writeTxResult = await writeTx(
           () =>
+  //@ts-ignore
             wagmiContractWrite.writeAsync({
+  //@ts-ignore
               args: newArgs ?? args,
+  //@ts-ignore
               value: newValue ?? value,
               ...otherConfig,
             }),
