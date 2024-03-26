@@ -1,0 +1,6 @@
+{
+    "name": "DeVolt",
+    "short_name": "DeVolt",
+    "description": "An application built with Next.js",
+    "start_url": "/"
+}
